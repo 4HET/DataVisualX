@@ -27,43 +27,43 @@ for i in range(2, 3):
         so = fp.read()
     hx = re.findall(r'<svgmtsi class="shopNum">(.*?)</svgmtsi>', so)
     so = str(so)
-    print('hx', hx)
+    print('hx',hx)
     for i in hx:
         uni = i.replace('&#x', 'uni').replace(';','')
+        # re.sub(r'<svgmtsi class="shopNum">{}</svgmtsi>'.format(i), json_data[uni.replace(';','')], so, re.M)
+        # print(r'<svgmtsi class="shopNum">{}</svgmtsi>'.format(i))
+        # uni = i.replace('&#x', 'uni')
         so = so.replace(i, json_data[uni])
-        # print(i, uni, json_data[uni])
+        print(i, uni, json_data[uni])
+        # print(uni)
+        # print(json_data[uni.replace(';','')], end=' ')
+        # print("i", i, end=' ')
+        # codee = json_data[str(i)]
+        # re.sub(so, '<svgmtsi class="shopNum">(.*?)</svgmtsi>')
     parser = etree.HTMLParser(encoding="utf-8")
     tree = etree.HTML(so)
+    print(so)
     # tree = etree.parse('index.html', parser=parser)
     father_tree = tree.xpath('//div[@id="shop-all-list"]/ul/li')
     h4_list = []
     url_list = []
     review_num = []
     mean_price = []
-    recommend = []
     for i in father_tree:
         h4_list.append(i.xpath('./div[@class="txt"]/div[@class="tit"]/a/h4/text()')[0])
         url_list.append(i.xpath('./div[@class="txt"]/div[@class="tit"]/a/@href')[0])
         review = i.xpath('./div[@class="txt"]/div[@class="comment"]/a[@class="review-num"]//text()')
 
         mean = i.xpath('./div[@class="txt"]/div[@class="comment"]/a[@class="mean-price"]//text()')
-
-
-        recommend_mid = i.xpath('./div[@class="txt"]/div[@class="recommend"]/a/text()')
-
-
-        recommend_mid = ' '.join(recommend_mid)
         review = ''.join(review)
         mean = ''.join(mean)
         review_num.append(review.replace(' ', '').replace('\n', '')
                           .replace('\t', '').replace('\r', ''))
         mean_price.append(mean.replace(' ', '').replace('\n', '').replace('\t', '').replace('\r', ''))
-        recommend.append(recommend_mid)
 
     print(h4_list)
     print(url_list)
     print(url)
     print(review_num)
     print(mean_price)
-    print(recommend)
     time.sleep(4)

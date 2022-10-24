@@ -1,5 +1,6 @@
 from PIL import ImageFont, Image, ImageDraw
 from io import BytesIO
+import json
 import ddddocr
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.woff2 import decompress
@@ -52,19 +53,40 @@ def identify_word(_ttf_path):
     """识别ttf字体结果"""
     font = TTFont(_ttf_path)
     ocr = ddddocr.DdddOcr()
+    all_glyph_name = []
+    all_word = []
     for cmap_code, glyph_name in font.getBestCmap().items():
         bytes_io = BytesIO()
         pil = font_to_img(cmap_code, _ttf_path)
         pil.save(bytes_io, format="PNG")
         word = ocr.classification(bytes_io.getvalue())  # 识别字体
-        print(cmap_code, glyph_name, word)
+        all_glyph_name.append(glyph_name)
+        all_word.append(word)
+        # print(glyph_name, word)
+    info_dict = dict(zip(all_glyph_name, all_word))
+    print(info_dict)
+    with open("./json/shop_name.json", "w", encoding='utf-8') as f:
+        # json.dump(dict_, f)  # 写为一行
+        json.dump(info_dict, f, indent=2, sort_keys=True, ensure_ascii=False)  # 写为多行
+        print("键值对获取成功，路径为{}".format("./json/shop_name.json"))
+
+    # info_json = json.dumps(info_dict, ensure_ascii=False)
+
+
+        # for i, j in glyph_name, word:
+        #     print(i, j)
         # with open(f"./img/{cmap_code}_{glyph_name}.png", "wb") as f:
         #     f.write(bytes_io.getvalue())
 
-woff2_path = "./woff/cb3159c2.woff"
-ttf_path = './woff/cb3159c2.ttf'
-xml_path = './woff/cb3159c2.xml'
-decompress(woff2_path, ttf_path)  # 将woff2文件转成ttf文件
-_font = TTFont(ttf_path)
-_font.saveXML(xml_path)
-identify_word(ttf_path)
+def woff_to_json(woff_target):
+    # woff_target = "./woff/cb3159c2.woff"
+    ttf_path = woff_target.replace('woff', 'ttf')
+    print(ttf_path)
+    xml_path = woff_target.replace('woff', 'xml')
+    decompress(woff_target, ttf_path)  # 将woff2文件转成ttf文件
+    _font = TTFont(ttf_path)
+    _font.saveXML(xml_path)
+    identify_word(ttf_path)
+
+if __name__ == '__main__':
+    woff_to_json('./woff/shop_name.woff')
