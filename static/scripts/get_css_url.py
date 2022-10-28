@@ -4,7 +4,11 @@ import re
 
 from static.scripts.font_processor import woff_to_json
 
-
+"""
+获得css文件的url
+page_source:网页源码数据
+-> 整个css文件的地址
+"""
 def css_url_getter(page_source):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52",
@@ -20,6 +24,12 @@ def css_url_getter(page_source):
     # print(css_url)
     return 'http:' + css_url[0]
 
+"""
+在整个css文件中获取shop name的url
+url:传入的整个css文件的url，需要发送请求，接受数据后进行匹配
+woff:css混淆的数据，转化为xml之后进行提取即可得到映射关系
+woff地址:./woff/shop_name.woff
+"""
 def shop_name_css_url_getter(url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52",
@@ -40,15 +50,21 @@ def shop_name_css_url_getter(url):
     font_url = 'http:' + font_group[1].split('"')[-1]
     print("shop name的css url:", font_url)
 
+    woff_path = './woff/shop_name.woff'
     myfile = requests.get(url=font_url, headers=headers)
-    open('./woff/shop_name.woff', 'wb').write(myfile.content)
+    open(woff_path, 'wb').write(myfile.content)
     print('字体样式css已获取成功')
+    return woff_path
 
 '''
 获取shop name的字体对应键值对
+调用woff_to_json方法，将编码对应文字以json形式存储
+woff_path:woff的地址，xml以及ttf地址是将woff替换
+生成完的json路径：./json/shop_name.json
+-> json的路径
 '''
-def shop_name_json_getter():
-    woff_to_json('./woff/shop_name.woff')
+def shop_name_json_getter(woff_path):
+    return woff_to_json(woff_path)
 
 
 if __name__ == '__main__':
@@ -56,4 +72,5 @@ if __name__ == '__main__':
     #     so = fp.read()
     # url = css_url_getter(so)
     # shop_name_css_url_getter(url)
-    shop_name_json_getter()
+    woff_path = './woff/shop_name.woff'
+    shop_name_json_getter(woff_path)
