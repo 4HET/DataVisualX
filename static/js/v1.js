@@ -1,5 +1,13 @@
 // t='//www.dianping.com', e={shopId: 'H8mrf4qzTjyV6sji'}
 
+// s = 'https://www.dianping.com?shopId=H8mrf4qzTjyV6sji'
+// try {
+//     n = i.reload(s) || ""
+// } catch (t) {
+//     console.log("获取token失败:" + t)
+// }
+// return n
+
 h = function (t, e) {
     if (window.Rohr_Opt && window.Rohr_Opt.reload) {
         var i = window.Rohr_Opt
@@ -22,12 +30,16 @@ h = function (t, e) {
     }
 };
 
+// jv = 'https://www.dianping.com?shopId=H8mrf4qzTjyV6sji'
 iP.reload = function (jv) {
     var jw;
     var jx = {};
+    //_$_543c[91]->'string'
     if (typeof jv === _$_543c[91]) {
+        // _$_543c[146] -> ?
         jx = iO.parse(jv.split(_$_543c[146])[1])
     } else {
+        //_$_543c[2] -> 'object'
         if (typeof jv === _$_543c[2]) {
             jx = jv
         }
@@ -42,6 +54,7 @@ iP.reload = function (jv) {
     return jw
 }
 
+//dl -> {shopId: 'H8mrf4qzTjyV6sji'}
 b.exports = function (ir, it, im, de) {
     it = it || _$_543c[121];
     im = im || _$_543c[122];
@@ -93,10 +106,17 @@ var iJ = function (je) {
     var jd = [];
     var ck = Object.keys(je).sort();
     ck.forEach(function (jf, bx) {
+        //_$_543c[136] -> 'token'
+        // _$_543c[137] -> '_token'
         if (jf !== _$_543c[136] && jf !== _$_543c[137]) {
+            // _$_543c[122] -> '='
+            // jf -> shopId
+            // je -> {shopId: 'H8mrf4qzTjyV6sji'}
             jd.push(jf + _$_543c[122] + je[jf])
         }
     });
+    // _$_543c[121] -> '&'
+    // jd -> 'shopId=H8mrf4qzTjyV6sji'
     jd = jd.join(_$_543c[121]);
     return iI(jd)
 };
@@ -107,6 +127,8 @@ var iI = function (jc) {
     return jc
 };
 
+// dd -> '"shopId=H8mrf4qzTjyV6sji"'
+// de -> undefined
 function cD(dd, de) {
     var dc = new cE(de);
     dc.push(dd, true);
@@ -117,10 +139,25 @@ function cD(dd, de) {
     return dc.result
 }
 
+// de -> undefined
 function cE(de) {
     if (!(this instanceof cE)) {
         return new cE(de)
     }
+// var cT = c(_$_543c[99]);
+// var cK = c(_$_543c[100]);
+// var cI = c(_$_543c[101]);
+// var cH = c(_$_543c[102]);
+// var cU = c(_$_543c[103]);
+// var cJ = Object.prototype.toString;
+// var cP = 0;
+// var cO = 4;
+// var cQ = 0;
+// var cR = 1;
+// var cS = 2;
+// var cL = -1;
+// var cM = 0;
+// var cN = 8;
     ;this.options = cK.assign({
         level: cL,
         method: cN,
@@ -130,6 +167,16 @@ function cE(de) {
         strategy: cM,
         to: _$_543c[60]
     }, de || {});
+
+    // {
+    //     chunkSize: 16384
+    //     level: -1
+    //     memLevel: 8
+    //     method: 8
+    //     strategy: 0
+    //     to: ""
+    //     windowBits:15
+    // }
     var dg = this.options;
     if (dg.raw && (dg.windowBits > 0)) {
         dg.windowBits = -dg.windowBits
@@ -139,10 +186,26 @@ function cE(de) {
         }
     }
     ;this.err = 0;
+    // _$_543c[60] -> ''
     this.msg = _$_543c[60];
     this.ended = false;
     this.chunks = [];
     this.strm = new cU();
+    //            function cU() {
+    //                 this.input = null;
+    //                 this.next_in = 0;
+    //                 this.avail_in = 0;
+    //                 this.total_in = 0;
+    //                 this.output = null;
+    //                 this.next_out = 0;
+    //                 this.avail_out = 0;
+    //                 this.total_out = 0;
+    ////     _$_543c[60] -> ''
+    //                 this.msg = _$_543c[60];
+    //                 this.state = null;
+    //                 this.data_type = 2;
+    //                 this.adler = 0
+    //             }
     this.strm.avail_out = 0;
     var cZ = cT.deflateInit2(this.strm, dg.level, dg.method, dg.windowBits, dg.memLevel, dg.strategy);
     if (cZ !== cQ) {
@@ -170,6 +233,42 @@ function cE(de) {
         }
         ;this._dict_set = true
     }
+}
+
+// dl -> {chunkSize:  16384
+// level :  -1
+// memLevel : 8
+// method : 8
+// strategy:0
+// to: ""
+// windowBits: 15}
+a.assign = function (dl) {
+    var dn = Array.prototype.slice.call(arguments, 1);
+    while (dn.length) {
+        var bP = dn.shift();
+        if (!bP) {
+            continue
+        }
+        ;
+        if (typeof bP !== _$_543c[2]) {
+            throw new TypeError(bP + _$_543c[105])
+        }
+        ;
+        for (var dm in bP) {
+            if (dh(bP, dm)) {
+                dl[dm] = bP[dm]
+            }
+        }
+    }
+    ;
+    return dl
+// chunkSize: 16384
+// level: -1
+// memLevel:  8
+// method: 8
+// strategy:  0
+// to: ""
+// windowBits: 15
 }
 
 var iD = (function (cC) {
