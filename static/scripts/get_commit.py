@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-"""
-@project: dazhongdianping
-@file: dzdp.py.py
-@ide: PyCharm
-@time: 2020-02-24 18:30:41
-@author: Mr.Li
-Copyright © 2020—2020 Mr.Li. All rights reserved.
-"""
-
 import requests
 import re    # re库是对字符串进行解析，而lxml文件可以对xml文件进行解析
 from lxml import etree

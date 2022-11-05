@@ -4,47 +4,59 @@ import base64
 import csv
 import json
 import os.path
+import random
 import re
 import time
+import traceback
+
+import pandas as pd
 
 import requests
+from fake_useragent import UserAgent
 from lxml import etree
 import get_css_url
 
 # json_data = json.loads('shop_name.json')
-with open("shop_name.json", encoding="utf-8") as f:
+with open("./json/city_list.json", encoding="utf-8") as f:
     json_data = json.load(f)
 # print(json_data)
 
 def get_fla(pahe_source):
-    url = get_css_url.css_url_getter(pahe_source)
-    woff_path = get_css_url.shop_name_css_url_getter(url)
-    json_path = get_css_url.shop_name_json_getter(woff_path)
-    with open(json_path, encoding="utf-8") as f:
-        json_data = json.load(f)
-    return json_data
+    if get_css_url.css_url_getter(pahe_source) == 'error':
+        return 'error'
+    else:
+        url = get_css_url.css_url_getter(pahe_source)
+        woff_path = get_css_url.shop_name_css_url_getter(url)
+        json_path = get_css_url.shop_name_json_getter(woff_path)
+        with open(json_path, encoding="utf-8") as f:
+            json_data = json.load(f)
+        return json_data
 
-def get_csv(idx):
-    url = 'https://www.dianping.com/chengdu/ch10/g110p{}'.format(idx)
+def get_csv(hu, idx, flag=False):
+    pos = hu.split('/')[-1]
+    # 人气
+    url = hu + '/ch10/o2p{}'.format(idx)
 
     headers = {
-    'Cookie': 'fspop=test; cy=153; cye=rizhao; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=7db62757-4617-03c5-8227-a3b30a9803c6.1666510368; s_ViewType=10; WEBDFPID=5w0830xz08w35yvu197y7429u76xy6u781596x519x997958zvww6ww3-1981870520158-1666510519831MQUYSAUfd79fef3d01d5e9aadc18ccd4d0c95077639; dplet=77569f358366ac46ae8b340c7a828c92; dper=ab7eef6129a412b25b0ac3854ff9e3bd0bf35371e8df4c10679b2f4ae332c4520bd2d188510101887353e78941e52b4a8a57ffa532d2ed4c662b55acd1dda1b993627620ed1e01619351ee224709f7c84571b76e4d9481e5692247f0803176e1; ua=dpuser_3830243167; ctu=3eada7613bfd5549da00debc4ee9ff6190908a18a5ec7383aee478c9ff16b664; ll=7fd06e815b796be3df069dec7836c3df; _lxsdk_s=184046b7e55-cec-64f-c45%7C%7C20; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1666510368,1666521465; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1666521465',
+    'Cookie': '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=7db62757-4617-03c5-8227-a3b30a9803c6.1666510368; s_ViewType=10; WEBDFPID=5w0830xz08w35yvu197y7429u76xy6u781596x519x997958zvww6ww3-1981870520158-1666510519831MQUYSAUfd79fef3d01d5e9aadc18ccd4d0c95077639; ctu=3eada7613bfd5549da00debc4ee9ff6190908a18a5ec7383aee478c9ff16b664; fspop=test; cy=1946; cye=bange; dper=de89a983a903d8800d8406b5e096b455290424d5cd5b889f9d0313532957c54f62516b79d73044ac32008348c20522b285b6d3a3a37fcca240e3362fe3d1ded7; ll=7fd06e815b796be3df069dec7836c3df; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1667300145,1667380665; _lxsdk_s=18437a1da35-371-25-597%7C%7C77; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1667380682',
     'Host': 'www.dianping.com',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52'
+    'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36',
+    # 'User-Agent': UserAgent().random,
     }
 
     resp = requests.get(url=url, headers=headers)
     # print(resp.text)
     so = resp.text
-    with open('./html/page{}.html'.format(idx), 'w', encoding='utf-8') as fp:
+    with open('./html/{}_page{}.html'.format(pos, idx), 'w', encoding='utf-8') as fp:
         fp.write(so)
     json_data = get_fla(so)
-    hx = re.findall(r'<svgmtsi class="shopNum">(.*?)</svgmtsi>', so)
-    so = str(so)
-    print('hx', hx)
-    for i in hx:
-        uni = i.replace('&#x', 'uni').replace(';','')
-        so = so.replace(i, json_data[uni])
+    if json_data != 'error':
+        hx = re.findall(r'<svgmtsi class="shopNum">(.*?)</svgmtsi>', so)
+        so = str(so)
+        print('hx', hx)
+        for i in hx:
+            uni = i.replace('&#x', 'uni').replace(';','')
+            so = so.replace(i, json_data[uni])
         # print(i, uni, json_data[uni])
     parser = etree.HTMLParser(encoding="utf-8")
     tree = etree.HTML(so)
@@ -93,8 +105,12 @@ def get_csv(idx):
     # print(review_num)
     # print(mean_price)
     # print(recommend)
-    print(all_of_all)
-    time.sleep(6)
+    print("all_of_all",all_of_all)
+    time.sleep(3)
+    # if all_of_all == []:
+    #     get_csv(hu, idx)
+    # else:
+    #     return all_of_all
     return all_of_all
 
 def list_to_csv(csv_path, datas):
@@ -105,12 +121,38 @@ def list_to_csv(csv_path, datas):
         for row in datas:
             writer.writerow(row)
 
+def update_log(url):
+    with open('./log/log.csv', 'a+', newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([url])
+
+def spj(url):
+    url_list = pd.read_csv('./log/log.csv')
+    # print(url_list)
+    if url in url_list['url'].values:
+        print(url)
+        return True
+    return False
+
 if __name__ == '__main__':
-    csv_path = './csv/shop_info.csv'
     # if not os.path.exists(csv_path):
     #     os.makedirs(csv_path)
-    for i in range(1, 51):
-        list_data = get_csv(i)
-        list_to_csv(csv_path, list_data)
-        print("第{}页已爬取完成".format(i))
-
+    ks = json_data.keys()
+    cnt = 0
+    for k in ks:
+        try:
+            url = json_data[k]
+            if spj(url):
+                print("{}已经爬取完成".format(k))
+                continue
+            for i in range(1, 5):
+                csv_path = 'csv/{}.csv'.format(k)
+                list_data = get_csv(url, i)
+                list_to_csv(csv_path, list_data)
+                print("第{}页已爬取完成".format(i))
+            print('{}已经爬取完成'.format(k))
+            update_log(url)
+            # time.sleep(random.randint(3))
+        except Exception as e:
+            print(traceback.format_exc())
+            continue

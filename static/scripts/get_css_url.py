@@ -1,4 +1,5 @@
 import requests
+from fake_useragent import UserAgent
 from lxml import etree
 import re
 
@@ -11,7 +12,8 @@ page_source:网页源码数据
 """
 def css_url_getter(page_source):
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52",
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36',
+        # "User-Agent": UserAgent().random,
         "Host": "s3plus.meituan.net"
     }
     html = etree.HTML(page_source)
@@ -22,6 +24,8 @@ def css_url_getter(page_source):
     css_url = re.findall('<!--图文混排css--><linkrel=.*?href="(.*?)">', re.sub('\s+', '', page_source).strip(), re.M)
     # css_url = 'http:' + html.xpath('/html/head/link[4]/@href')[0]
     # print(css_url)
+    if css_url == []:
+        return 'error'
     return 'http:' + css_url[0]
 
 """
@@ -32,7 +36,8 @@ woff地址:./woff/shop_name.woff
 """
 def shop_name_css_url_getter(url):
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52",
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36',
+        # "User-Agent": UserAgent().random,
         "Host": "s3plus.meituan.net"
     }
 
