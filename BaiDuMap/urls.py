@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('mainmap/', views.mainmap),
     path('now_pos/', views.now_pos),
+    path('hot/', views.hot),
 ]
