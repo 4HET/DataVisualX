@@ -7,13 +7,15 @@ import random    #生成随机时间值
 
 def get_url_list():
     url_list = []
-    for i in list(range(72)):  # 我所抓的评论一共72页，尚未完善自动化获取评论页数的代码
-        url_list.append('http://www.dianping.com/shop/18335920/review_all/p' + str(i + 1))
+    for i in list(range(1, 2)):  # 我所抓的评论一共72页，尚未完善自动化获取评论页数的代码
+        url_list.append('http://www.dianping.com/shop/l2Tn63E9MaXvTEel/review_all/p' + str(i))
     return url_list
 
 def get_css_content(html, headers):
     print('------begin to get css content------')
-    css_l = re.search(r'<link rel="stylesheet" type="text/css" href="(//s3plus.sankuai.com.*?.css)">', html)
+    # print(html)
+    css_l = re.search(r'<link rel="stylesheet" type="text/css" href="(//s3plus.meituan.net.*?.css)">', html)
+    print(css_l)
     css_link = 'http:' + css_l.group(1)
     html_css = requests.get(css_link, headers).text
     return html_css
@@ -21,7 +23,7 @@ def get_css_content(html, headers):
 def get_font_dic(css_content):
     print('------begin to get font dictionary------')
     # 获取svg链接和svg页面的html源码
-    svg_l = re.search(r'svgmtsi.*?(//s3plus.sankuai.com.*?svg)\);', css_content)
+    svg_l = re.search(r'svgmtsi.*?(//s3plus.meituan.net.*?svg)\);', css_content)
     svg_link = 'http:' + svg_l.group(1)
     svg_html = requests.get(svg_link).text
     # 解析出字典
@@ -49,6 +51,7 @@ def get_html_full_review(html, css_content, font_dic, y_list):
                 pos_y = y
                 break
         html = html.replace('<svgmtsi class="' + font_key + '"></svgmtsi>', font_dic[pos_x + ',' + pos_y])
+    print(html)
     return html
 
 def reviews_output(html_full_review, flag):
@@ -67,6 +70,7 @@ def reviews_output(html_full_review, flag):
         #print('第' + str(flag) + '条评论：\n' + r[0].strip())
         with open('reviews.txt', 'a+', encoding='UTF-8') as f:
             f.write('第' + str(flag) + '条评论：\n' + r[0].strip() + '\n\n')
+            print('第' + str(flag) + '条评论：\n' + r[0].strip() + '\n')
         f.close()
     print('------写入完成，延迟10-25秒------')
     time.sleep(10 + 15 * random.random())
@@ -76,7 +80,7 @@ if __name__ == '__main__':
     flag = 0    # 统计评论数量
     # url = 'http://www.dianping.com/shop/18335920/review_all/p1'
     headers = {
-        'Cookie': 'fspop=test; cy=153; cye=rizhao; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=7db62757-4617-03c5-8227-a3b30a9803c6.1666510368; s_ViewType=10; WEBDFPID=5w0830xz08w35yvu197y7429u76xy6u781596x519x997958zvww6ww3-1981870520158-1666510519831MQUYSAUfd79fef3d01d5e9aadc18ccd4d0c95077639; dplet=77569f358366ac46ae8b340c7a828c92; dper=ab7eef6129a412b25b0ac3854ff9e3bd0bf35371e8df4c10679b2f4ae332c4520bd2d188510101887353e78941e52b4a8a57ffa532d2ed4c662b55acd1dda1b993627620ed1e01619351ee224709f7c84571b76e4d9481e5692247f0803176e1; ua=dpuser_3830243167; ctu=3eada7613bfd5549da00debc4ee9ff6190908a18a5ec7383aee478c9ff16b664; ll=7fd06e815b796be3df069dec7836c3df; _lxsdk_s=184046b7e55-cec-64f-c45%7C%7C20; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1666510368,1666521465; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1666521465',
+        'Cookie': 's_ViewType=10; _lxsdk_cuid=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _lxsdk=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _hc.v=652bc9d6-1f70-3c7b-55b7-445886fd6498.1667281185; WEBDFPID=9y5708w5vu5059xv0u815u3519wx6y2881568y530zu979588v74z2vx-1982641217806-1667281217370SOQMUYYfd79fef3d01d5e9aadc18ccd4d0c95071750; ctu=3eada7613bfd5549da00debc4ee9ff61cf0c6fe7b9b663833fc2c67b06018752; fspop=test; cy=57; cye=alashan; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1668918849,1668945415,1669007193,1669169028; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669169649; _lxsdk_s=184a23a173b-9de-d83-5e5%7C%7C202',
         'host': 'www.dianping.com',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': UserAgent().random
