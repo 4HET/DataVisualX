@@ -14,19 +14,21 @@ def get_html(url):
     headers = {
         'User-Agent': UserAgent().random,
         'Host': 'www.dianping.com',
-        'Cookie': 's_ViewType=10; _lxsdk_cuid=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _lxsdk=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _hc.v=652bc9d6-1f70-3c7b-55b7-445886fd6498.1667281185; WEBDFPID=9y5708w5vu5059xv0u815u3519wx6y2881568y530zu979588v74z2vx-1982641217806-1667281217370SOQMUYYfd79fef3d01d5e9aadc18ccd4d0c95071750; ctu=3eada7613bfd5549da00debc4ee9ff61cf0c6fe7b9b663833fc2c67b06018752; fspop=test; cy=57; cye=alashan; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1668918849,1668945415,1669007193,1669169028; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669170595; _lxsdk_s=184a23a173b-9de-d83-5e5%7C%7C518',
+        'Cookie': 'lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk_cuid=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; _lxsdk=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669260433; _hc.v=2d35624e-0aba-4b68-02cf-9730972808cb.1669260433; fspop=test; cy=57; cye=alashan; s_ViewType=10; WEBDFPID=87xy353551825v35y9zy8w3v34925976815z1wv37u097958x317v7x5-1984640456973-1669280456094QUMASWEfd79fef3d01d5e9aadc18ccd4d0c95077135; lgtoken=00b1c9e8e-2296-45f8-b04b-3a5d10d45ef1; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669280479; _lxsdk_s=184a8dddab5-cdc-f52-c6%7C%7C140',
     }
     resp = requests.get(url, headers=headers)
+    print(resp.status_code)
     resp.encoding = 'utf-8'
     return resp.text
 
 def get_html_full_review(url):
-    fp = open('hou.html', 'a', encoding='utf-8')
-    f = open('qian.html', 'a', encoding='utf-8')
+    fp = open('hou.html', 'w', encoding='utf-8')
+    f = open('qian.html', 'w', encoding='utf-8')
     # 获取源码
     html_source = get_html(url)
     # 正则表达式img标签替换为空
     html_source = re.sub(r'<img.*?>', '', html_source)
+    html_source = re.sub(r'&#x0A;', '', html_source)
     print(html_source, file=f)
     # print(html_source)
     # 解析出css的url
@@ -54,15 +56,23 @@ def get_html_full_review(url):
         print(font_key_list)
         # '看大众点评来<svgmtsi class="nznlgx"></svgmtsi>，整体来说<svgmtsi class="nznigy"></svgmtsi><svgmtsi class="nzn3yz"></svgmtsi><img class="emoji-img" src="https://img.meituan.net/ugcpic/865d953ec5baf955ee0061270ed5b06d914.png" alt=""/><img class="emoji-img" src="https://img.meituan.net/ugcpic/865d953ec5baf955ee0061270ed5b06d914.png" alt=""/>，环境<svgmtsi class="nzn21w"></svgmtsi><svgmtsi class="nzn3os"></svgmtsi><svgmtsi class="nzn666"></svgmtsi>，<svgmtsi class="nznhra"></svgmtsi>合<svgmtsi class="nznpnn"></svgmtsi><svgmtsi class="nznia9"></svgmtsi><svgmtsi class="nznkcd"></svgmtsi>卡，吃完<svgmtsi class="nzn9xs"></svgmtsi>可以<svgmtsi class="nzn0kx"></svgmtsi><svgmtsi class="nznitk"></svgmtsi><svgmtsi class="nzncai"></svgmtsi>营<svgmtsi class="nzncsh"></svgmtsi><svgmtsi class="nzn2hd"></svgmtsi><svgmtsi class="nzncsh"></svgmtsi>，溜溜食儿，菜<svgmtsi class="nzn49j"></svgmtsi><svgmtsi class="nznsa2"></svgmtsi>体<svgmtsi class="nzne8o"></svgmtsi>是<svgmtsi class="nznigy"></svgmtsi><svgmtsi class="nzn3yz"></svgmtsi><svgmtsi class="nznlgx"></svgmtsi>，可能我们是南方人，吃<svgmtsi class="nznlgx"></svgmtsi><svgmtsi class="nznq0y"></svgmtsi><svgmtsi class="nznbsy"></svgmtsi>淡，有些<svgmtsi class="nznigy"></svgmtsi>是<svgmtsi class="nzn7ge"></svgmtsi><svgmtsi class="nznlfl"></svgmtsi>能<svgmtsi class="nznhra"></svgmtsi>应，<svgmtsi class="nzne4a"></svgmtsi>是<svgmtsi class="nznams"></svgmtsi><svgmtsi class="nzn8ld"></svgmtsi><svgmtsi class="nznkh4"></svgmtsi><svgmtsi class="nzn7y9"></svgmtsi><svgmtsi class="nzne8o"></svgmtsi><svgmtsi class="nznbsy"></svgmtsi><svgmtsi class="nzn666"></svgmtsi><img class="emoji-img" src="https://img.meituan.net/ugcpic/77767c628a19e6d0a84e9558551634ca2205.png" alt=""/><img class="emoji-img" src="https://img.meituan.net/ugcpic/77767c628a19e6d0a84e9558551634ca2205.png" alt=""/><img class="emoji-img" src="https://img.meituan.net/ugcpic/77767c628a19e6d0a84e9558551634ca2205.png" alt=""/>'
         # print(len(font_key))
-        for font_key in font_key_list:
-            pos_key = re.findall(r'.' + font_key + '{background:-(.*?).0px -(.*?).0px;}', css_source)
-            pos_x = pos_key[0][0]
-            pos_y_original = pos_key[0][1]
-            for y in y_list:
-                if int(pos_y_original) < int(y):
-                    pos_y = y
-                    break
-            html_source = html_source.replace('<svgmtsi class="' + font_key + '"></svgmtsi>', font_dic[pos_x + ',' + pos_y])
+        try:
+            for font_key in font_key_list:
+                pos_key = re.findall(r'.' + font_key + '{background:-(.*?).0px -(.*?).0px;}', css_source)
+                pos_x = pos_key[0][0]
+                pos_y_original = pos_key[0][1]
+                # print(f"pos_y_original:{pos_y_original}\npos_x:{pos_x}\npos_key:{pos_key}")
+                pos_y = ''
+                for y in y_list:
+                    if int(pos_y_original) < int(y):
+                        pos_y = y
+                        break
+                # print(f"pos_y:\t{pos_y}")
+                html_source = html_source.replace('<svgmtsi class="' + font_key + '"></svgmtsi>',font_dic[pos_x + ',' + pos_y])
+        except Exception as e:
+            print(e)
+            continue
+
     print(html_source, file=fp)
     return html_source
 
@@ -71,8 +81,13 @@ def reviews_output(html_full_review, flag):
     html = etree.HTML(html_full_review)
     reviews_items = html.xpath("//div[@class='reviews-items']/ul/li")
     for i in reviews_items:
-        r = []    #初始化数组
         r = i.xpath("./div/div[@class='review-words Hide']//text()")
+        score_items = i.xpath("./div/div[@class='review-rank']/span[@class='score']")
+        for score in score_items:
+            s = score.xpath("./span[@class='item']/text()")
+            s = [t.strip() for t in s]
+            print(s)
+        # print(s[0].strip() + '\n')
         if r:
             pass
         else:
@@ -100,36 +115,6 @@ def css(url):
     }
     css_info = requests.get(url, headers=headers).text
     return css_info
-
-# 获取svg标签属性的对应关系
-def kv(resp):
-    pattern = re.compile(r'\.(?P<tag>.*?)\{background:-(?P<x>.*?)px -(?P<y>.*?)px')
-    result = pattern.finditer(resp)
-    tag = {}
-    for groups in result:
-        if len(groups.group('tag')) >= 20:
-            tag[groups.group('tag').split('.')[-1]] = [int(eval(groups.group('x'))), int(eval(groups.group('y')))]
-        else:
-            tag[groups.group('tag')] = [int(eval(groups.group('x'))), int(eval(groups.group('y')))]
-    return tag
-
-# 获取svg标签的信息
-def writing(resp):
-    pattern = re.compile(r'\[class\^="(?P<tag>.*?)"]\{width: (?P<width>.*?)px;height: (?P<height>.*?)px;margin-top: -(?P<top>.*?)px;background-image: url\((?P<url>.*?)\);backgro')
-    result = pattern.finditer(resp)
-    tag = {}
-    for groups in result:
-        tag[groups.group('tag')] = [int(eval(groups.group('width'))), int(eval(groups.group('top'))), 'http:' + groups.group('url')]
-    return tag
-
-# 获取html中加密后的文件
-def secret(resp):
-    tree = etree.HTML(resp)
-    review_sec = tree.xpath('//div[@class="reviews-items"]/ul')
-    for i in review_sec:
-        # 替换空白字符
-        review_i = i.xpath('./li/div[@class="main-review"]/div[@class="dper-info"]/a/text()')
-        print(review_i)
 
 # 获取字体的url
 def get_font_url(resp):
@@ -165,6 +150,20 @@ def get_font_dic(xml_info):
         j += 1
     return font_dic, y_list
 
+def get_page_num(url):
+    headers = {
+        'User-Agent': UserAgent().random,
+        'Host': 'www.dianping.com',
+        'Referer': url,
+        'Cookie': 'lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk_cuid=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; _lxsdk=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669260433; _hc.v=2d35624e-0aba-4b68-02cf-9730972808cb.1669260433; fspop=test; cy=57; cye=alashan; s_ViewType=10; WEBDFPID=87xy353551825v35y9zy8w3v34925976815z1wv37u097958x317v7x5-1984640456973-1669280456094QUMASWEfd79fef3d01d5e9aadc18ccd4d0c95077135; lgtoken=00b1c9e8e-2296-45f8-b04b-3a5d10d45ef1; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669280479; _lxsdk_s=184a8dddab5-cdc-f52-c6%7C%7C140'
+    }
+    resp = requests.get(url + '/review_all', headers=headers).text
+    pattern = re.compile('data-click-curPage="1".*?>(.*?)</a>', re.DOTALL)
+    page = pattern.findall(resp)
+    for i in range(len(page)):
+        if page[i] != '下一页':
+            return page[i]
+
 def redu():
     with open('../json/city_list.json', 'r', encoding='utf-8') as fp:
         data = json.load(fp)
@@ -185,22 +184,19 @@ def redu():
         # 删除两个DataFrame中相同的行
         pds = df[~df.isin(log)]
         print(pds)
-        if city in city_log:
-            print("已经爬取过")
         for urls in pds.iloc[:, 0].values:
-            url = urls + '/review_all'
-            # print(self.shop_id)
-            headers = {
-                # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
-                'User-Agent': UserAgent().random,
-                'Host': 'www.dianping.com',
-                'Cookie': '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; cy=4; cye=guangzhou; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1668918822,1668945215,1669003562,1669080037; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669082774; _lxsdk_s=1849cec2e9e-6f7-26d-0f5%7C%7C414'
-            }
-            print(f"step 1:\nurl:\t{url}")
-            resp = requests.get(url, headers=headers)
+            print(urls)
+            page = get_page_num(urls)
+
+            for i in range(1, page + 1):
+                url = f'{urls}/review_all/p{i}'
+
 
 if __name__ == '__main__':
-    url = 'http://www.dianping.com/shop/l2Tn63E9MaXvTEel/review_all/p1'
+    # page = get_page_num(url)
+    # 'https://www.dianping.com/shop/k2GHnv3o6mgB4s8i/review_all'
+    url = 'https://www.dianping.com/shop/k6hA9pn7PNV7gTUa/review_all'
+    # url = 'https://www.dianping.com/shop/k2GHnv3o6mgB4s8i/review_all'
     html = get_html_full_review(url)
     reviews = reviews_output(html, 1)
     # # 获取源码

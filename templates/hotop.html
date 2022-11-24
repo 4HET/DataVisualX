@@ -2,12 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/index.css">
+    <title>hot</title>
 </head>
 <body>
-{% for i in hotop %}
-<p> <a href={{i.1}} target="_blank">{{ i.0 }}</a> </p>
-<br />
-{% endfor %}
+   <div class="text-banner">
+       <ul class="text-banner-ul-1">
+           {% for i in hotop %}
+           <p>{{ i.0 }}</p>
+<br/>
+          {% endfor %}
+       </ul>
+   </div>
+
 </body>
 </html>
