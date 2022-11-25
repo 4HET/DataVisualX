@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+import csv
 import json
 import random
 import time
@@ -14,7 +16,11 @@ def get_html(url):
     headers = {
         'User-Agent': UserAgent().random,
         'Host': 'www.dianping.com',
-        'Cookie': 'lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk_cuid=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; _lxsdk=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669260433; _hc.v=2d35624e-0aba-4b68-02cf-9730972808cb.1669260433; fspop=test; cy=57; cye=alashan; s_ViewType=10; WEBDFPID=87xy353551825v35y9zy8w3v34925976815z1wv37u097958x317v7x5-1984640456973-1669280456094QUMASWEfd79fef3d01d5e9aadc18ccd4d0c95077135; lgtoken=00b1c9e8e-2296-45f8-b04b-3a5d10d45ef1; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669280479; _lxsdk_s=184a8dddab5-cdc-f52-c6%7C%7C140',
+        # 'Cookie': f'_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669255725,1669305822,1669356054,1669364643; cy=8; cye=chengdu; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; lgtoken=0ee3c30c1-ce06-484d-9f78-f897f23d64ed; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7={time.time() - 100}; _lxsdk_s=184ade2f473-407-025-231%7C%7C1237',
+        'Cookie': f's_ViewType=10; _lxsdk_cuid=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _lxsdk=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _hc.v=652bc9d6-1f70-3c7b-55b7-445886fd6498.1667281185; WEBDFPID=9y5708w5vu5059xv0u815u3519wx6y2881568y530zu979588v74z2vx-1982641217806-1667281217370SOQMUYYfd79fef3d01d5e9aadc18ccd4d0c95071750; ctu=3eada7613bfd5549da00debc4ee9ff61cf0c6fe7b9b663833fc2c67b06018752; fspop=test; aburl=1; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669258302,1669279838,1669297263,1669366169; dper=ab7eef6129a412b25b0ac3854ff9e3bd61c0c2614aab4e90e01ab0d9fbab5cab6fe35c544d883bea062776dcb2378901ae0e6f176adab47d8ac26fb6503b2742; ll=7fd06e815b796be3df069dec7836c3df; cy=8; cye=chengdu; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7={int(time.time())}; _lxsdk_s=184adfa3d1f-550-572-0e2%7C%7C135',
+        '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669255725,1669305822,1669356054,1669364643; cy=8; cye=chengdu; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669367296; _lxsdk_s=184ade2f473-407-025-231||1653'
+        '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669255725,1669305822,1669356054,1669364643; cy=8; cye=chengdu; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669368503; _lxsdk_s=184ade2f473-407-025-231||1757'
+
     }
     resp = requests.get(url, headers=headers)
     print(resp.status_code)
@@ -76,29 +82,41 @@ def get_html_full_review(url):
     print(html_source, file=fp)
     return html_source
 
-def reviews_output(html_full_review, flag):
+def reviews_output(html_full_review, shop_id):
     print('------开始提取评论并写入文件------')
     html = etree.HTML(html_full_review)
+    review_num = html.xpath('//div[@class="rank-info"]/span[@class="reviews"]/text()')
+    review_num = re.findall(r'\d+', review_num[0])[0]
+    price = html.xpath('//div[@class="rank-info"]/span[@class="price"]/text()')
+    price = re.findall(r'\d+', price[0])[0]
+    all_score = html.xpath('//div[@class="rank-info"]/div/div[2]/text()')[0]
+    all_score = eval(all_score)
     reviews_items = html.xpath("//div[@class='reviews-items']/ul/li")
     for i in reviews_items:
         r = i.xpath("./div/div[@class='review-words Hide']//text()")
+        score = i.xpath("./div/div[@class='review-rank']/span/@class")
+        score = eval(re.findall(r'\d+', score[0])[0]) / 10
         score_items = i.xpath("./div/div[@class='review-rank']/span[@class='score']")
-        for score in score_items:
-            s = score.xpath("./span[@class='item']/text()")
+        s = []
+        for scor in score_items:
+            s = scor.xpath("./span[@class='item']/text()")
             s = [t.strip() for t in s]
-            print(s)
-        # print(s[0].strip() + '\n')
         if r:
             pass
         else:
             r = i.xpath("./div/div[@class='review-words']//text()")    #评论较短不需要展开的时候
-        flag += 1
-        #print(r)
+        info = [shop_id, review_num, price, all_score, score, s, r[0].strip()]
+        # 写入csv
+        print(info)
+        with open(f'../review_csv/{shop_id}.csv', 'a', encoding='utf-8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(info)
         #print('第' + str(flag) + '条评论：\n' + r[0].strip())
-        with open('reviews.txt', 'a+', encoding='UTF-8') as f:
-            print(r[0].strip() + '\n')
-            f.write('第' + str(flag) + '条评论：\n' + r[0].strip() + '\n\n')
-        f.close()
+        # with open(f'../review_csv/{shop_id}.csv', 'a+', encoding='UTF-8') as f:
+        #     # rev = [shop_id, r[0].strip(), ]
+        #     print(shop_id + '\t' + r[0].strip() + '\n')
+        #     f.write(r[0].strip() + '\n\n')
+        # f.close()
     print('------写入完成，延迟10-25秒------')
     time.sleep(10 + 15 * random.random())
 
@@ -155,7 +173,7 @@ def get_page_num(url):
         'User-Agent': UserAgent().random,
         'Host': 'www.dianping.com',
         'Referer': url,
-        'Cookie': 'lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk_cuid=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; _lxsdk=184a7acd53ec8-088fdcc9cbdbb9-7d5d5471-fa000-184a7acd53ec8; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669260433; _hc.v=2d35624e-0aba-4b68-02cf-9730972808cb.1669260433; fspop=test; cy=57; cye=alashan; s_ViewType=10; WEBDFPID=87xy353551825v35y9zy8w3v34925976815z1wv37u097958x317v7x5-1984640456973-1669280456094QUMASWEfd79fef3d01d5e9aadc18ccd4d0c95077135; lgtoken=00b1c9e8e-2296-45f8-b04b-3a5d10d45ef1; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669280479; _lxsdk_s=184a8dddab5-cdc-f52-c6%7C%7C140'
+        'Cookie': '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; dper=de89a983a903d8800d8406b5e096b455ece6c3c06aca65c55c4f3788cd8ebbb7a69f9d4fe86f75d6a68ea0dc60f499a6664d44a780293dc8fa552f82952eace7; cy=57; cye=alashan; ll=7fd06e815b796be3df069dec7836c3df; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669217364,1669255725,1669305822,1669356054; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669356073; _lxsdk_s=184ad5fe4c8-a7a-ddc-792%7C%7C163'
     }
     resp = requests.get(url + '/review_all', headers=headers).text
     pattern = re.compile('data-click-curPage="1".*?>(.*?)</a>', re.DOTALL)
@@ -195,10 +213,11 @@ def redu():
 if __name__ == '__main__':
     # page = get_page_num(url)
     # 'https://www.dianping.com/shop/k2GHnv3o6mgB4s8i/review_all'
-    url = 'https://www.dianping.com/shop/k6hA9pn7PNV7gTUa/review_all'
-    # url = 'https://www.dianping.com/shop/k2GHnv3o6mgB4s8i/review_all'
-    html = get_html_full_review(url)
-    reviews = reviews_output(html, 1)
+    for i in range(1, 10):
+        url = f'https://www.dianping.com/shop/l89gAdkGhsVshwTm/review_all/p{i}'
+        # url = 'https://www.dianping.com/shop/k2GHnv3o6mgB4s8i/review_all'
+        html = get_html_full_review(url)
+        reviews = reviews_output(html, url.split('/')[-3])
     # # 获取源码
     # html_source = get_html(url)
     # # 解析出css的url

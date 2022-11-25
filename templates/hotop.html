@@ -8,14 +8,16 @@
     <title>hot</title>
 </head>
 <body>
-   <div class="text-banner">
-       <ul class="text-banner-ul-1">
-           {% for i in hotop %}
-           <p>{{ i.0 }}</p>
-<br/>
-          {% endfor %}
-       </ul>
-   </div>
+<div style="height: 100%">
+
+    <marquee onMouseOut="this.start()" onMouseOver="this.stop()" height="600" behavior="scroll"
+             direction="up" scrollamount="5">
+        {% for i in hotop %}
+            <p><a href="{{ i.1 }}" target="_blank">{{ i.0 }}</a></p>
+            <br/>
+        {% endfor %}
+    </marquee>
+</div>
 
 </body>
 </html>
