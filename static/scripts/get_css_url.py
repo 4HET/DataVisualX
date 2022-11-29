@@ -60,6 +60,32 @@ def shop_name_css_url_getter(url):
     open(woff_path, 'wb').write(myfile.content)
     print('字体样式css已获取成功')
     return woff_path
+def tag_name_css_url_getter(url):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36',
+        # "User-Agent": UserAgent().random,
+        "Host": "s3plus.meituan.net"
+    }
+
+    css_response = requests.get(url=url, headers=headers)
+
+    #注意此处的编码
+    css_response.encoding = 'windows-1252'
+
+    #保存css文件
+    # with open('./css/all_font.css','w',encoding='UTF-8') as f:
+    #     f.write(css_response.text)
+        # print(css_response.text)
+
+    font_group = re.search(r'url\("(.*?)"\);} .tagName', css_response.text)
+    font_url = 'http:' + font_group[1].split('"')[-1]
+    print("tagName_url name的css url:", font_url)
+
+    tagName_path = './woff/tagName.woff'
+    myfile = requests.get(url=font_url, headers=headers)
+    open(tagName_path, 'wb').write(myfile.content)
+    print('字体样式css已获取成功')
+    return tagName_path
 
 '''
 获取shop name的字体对应键值对

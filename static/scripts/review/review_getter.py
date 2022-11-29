@@ -13,14 +13,16 @@ from lxml import etree
 
 # 获取html源码
 def get_html(url):
+    with open('lx.txt', 'r') as f:
+        lx = f.readline()
+    print(lx)
+    f.close()
+    with open('lx.txt', 'w') as f:
+        f.write(str(int(lx) + random.randint(60, 120)))
     headers = {
         'User-Agent': UserAgent().random,
         'Host': 'www.dianping.com',
-        # 'Cookie': f'_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669255725,1669305822,1669356054,1669364643; cy=8; cye=chengdu; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; lgtoken=0ee3c30c1-ce06-484d-9f78-f897f23d64ed; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7={time.time() - 100}; _lxsdk_s=184ade2f473-407-025-231%7C%7C1237',
-        'Cookie': f's_ViewType=10; _lxsdk_cuid=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _lxsdk=18431b3e864c8-01933c488e725a-26021b51-384000-18431b3e864c8; _hc.v=652bc9d6-1f70-3c7b-55b7-445886fd6498.1667281185; WEBDFPID=9y5708w5vu5059xv0u815u3519wx6y2881568y530zu979588v74z2vx-1982641217806-1667281217370SOQMUYYfd79fef3d01d5e9aadc18ccd4d0c95071750; ctu=3eada7613bfd5549da00debc4ee9ff61cf0c6fe7b9b663833fc2c67b06018752; fspop=test; aburl=1; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669258302,1669279838,1669297263,1669366169; dper=ab7eef6129a412b25b0ac3854ff9e3bd61c0c2614aab4e90e01ab0d9fbab5cab6fe35c544d883bea062776dcb2378901ae0e6f176adab47d8ac26fb6503b2742; ll=7fd06e815b796be3df069dec7836c3df; cy=8; cye=chengdu; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7={int(time.time())}; _lxsdk_s=184adfa3d1f-550-572-0e2%7C%7C135',
-        '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669255725,1669305822,1669356054,1669364643; cy=8; cye=chengdu; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669367296; _lxsdk_s=184ade2f473-407-025-231||1653'
-        '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; fspop=test; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669255725,1669305822,1669356054,1669364643; cy=8; cye=chengdu; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669368503; _lxsdk_s=184ade2f473-407-025-231||1757'
-
+        'Cookie': f'_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669356054,1669364643,1669430663,1669612332; _lx_utm=utm_source=bing&utm_medium=organic; cy=8; cye=chengdu; dper=de89a983a903d8800d8406b5e096b45518803c9dbe480fe86c7f8ab36288b49e18d384e6cc4ad4827195285460adff4af489c51863d64502ffaf2b3c005a4533; ll=7fd06e815b796be3df069dec7836c3df; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7={int(time.time())}; _lxsdk_s=184bca6625d-071-ebb-7ed||{lx}'
     }
     resp = requests.get(url, headers=headers)
     print(resp.status_code)
@@ -53,10 +55,10 @@ def get_html_full_review(url):
         # 获取字体文件xml源码
         xml_info = font(font_url)
         # 获取字体文件的标签和对应数字
-        font_dic, y_list = get_font_dic(xml_info)
+        font_dic, y_list = get_font_dic_2(xml_info)
+        print(f"font_dic:\t{font_dic}\n{y_list}")
         if y_list == []:
             continue
-        print(f"font_dic:\t{font_dic}\n{y_list}")
         # 获取svg的class标签
         font_key_list = re.findall(r'<svgmtsi class="(.*?)"></svgmtsi>', html_source)
         print(font_key_list)
@@ -153,15 +155,32 @@ def font(url):
     return xml_info
 
 # 获取字体文件中的标签和对应的数字
-def get_font_dic(xml_info):
+# def get_font_dic(xml_info):
+#     print('------begin to get font dictionary------')
+#     # 解析出字典
+#     y_list = re.findall('d="M0 (.*?) H600"', xml_info)  # y_list的元素为str
+#     font_dic = {}
+#     j = 0    # j为第j行
+#     font_size = int(re.findall(r'font-size:(.*?)px;fill:#.*?;}', xml_info)[0])
+#     for y in y_list:
+#         font_l = re.findall(r'<textPath xlink:href="#' + str(j + 1) + '" textLength=".*?">(.*?)</textPath>', xml_info)
+#         font_list = re.findall(r'.{1}', font_l[0])
+#         for x in range(len(font_list)):    # x为每一行第x个字
+#             font_dic[str(x * font_size) + ',' + y] = font_list[x]
+#         j += 1
+#     return font_dic, y_list
+
+def get_font_dic_2(xml_info):
     print('------begin to get font dictionary------')
     # 解析出字典
-    y_list = re.findall('d="M0 (.*?) H600"', xml_info)  # y_list的元素为str
+    y_list = re.findall(r'text x="\d+" y="(.*?)"', xml_info)  # y_list的元素为str
     font_dic = {}
     j = 0    # j为第j行
     font_size = int(re.findall(r'font-size:(.*?)px;fill:#.*?;}', xml_info)[0])
+    print(f'y_list:{y_list}\n')
     for y in y_list:
-        font_l = re.findall(r'<textPath xlink:href="#' + str(j + 1) + '" textLength=".*?">(.*?)</textPath>', xml_info)
+        # font_l = re.findall(r'<textPath xlink:href="#' + str(j + 1) + '" textLength=".*?">(.*?)</textPath>', xml_info)
+        font_l = re.findall(r'<text x="\d+" y="\d+">(.*?)</text>', xml_info)
         font_list = re.findall(r'.{1}', font_l[0])
         for x in range(len(font_list)):    # x为每一行第x个字
             font_dic[str(x * font_size) + ',' + y] = font_list[x]

@@ -11,6 +11,19 @@ def mainmap(request):
 
 def now_pos(request):
     return render(request, 'now_pos.html')
+def index(request):
+    path = './static/scripts/json/city_list.json'
+    with open(path, 'r', encoding='utf-8') as fp:
+        city = json.load(fp)
+        fp.close()
+    city_keys = list(city.keys())
+
+    k = get_key()
+    if k in city_keys:
+        path = f'./static/scripts/csv/{k}.csv'
+        top = pd.read_csv(path)
+        data = np.array(top).tolist()
+    return render(request, 'index.html', {'hotop': data, 'len': len(data) * 2})
 
 def hot(request):
     path = './static/scripts/json/city_list.json'

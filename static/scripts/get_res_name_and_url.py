@@ -21,12 +21,22 @@ with open("./json/city_list.json", encoding="utf-8") as f:
     json_data = json.load(f)
 # print(json_data)
 
-def get_fla(pahe_source):
+def get_shop(pahe_source):
     if get_css_url.css_url_getter(pahe_source) == 'error':
         return 'error'
     else:
         url = get_css_url.css_url_getter(pahe_source)
         woff_path = get_css_url.shop_name_css_url_getter(url)
+        json_path = get_css_url.shop_name_json_getter(woff_path)
+        with open(json_path, encoding="utf-8") as f:
+            json_data = json.load(f)
+        return json_data
+def get_tag(pahe_source):
+    if get_css_url.css_url_getter(pahe_source) == 'error':
+        return 'error'
+    else:
+        url = get_css_url.css_url_getter(pahe_source)
+        woff_path = get_css_url.tag_name_css_url_getter(url)
         json_path = get_css_url.shop_name_json_getter(woff_path)
         with open(json_path, encoding="utf-8") as f:
             json_data = json.load(f)
@@ -49,7 +59,8 @@ def get_csv(hu, idx, flag=False):
     so = resp.text
     with open('./html/{}_page{}.html'.format(pos, idx), 'w', encoding='utf-8') as fp:
         fp.write(so)
-    json_data = get_fla(so)
+    json_data = get_shop(so)
+    tag_data = get_tag(so)
     if json_data != 'error':
         hx = re.findall(r'<svgmtsi class="shopNum">(.*?)</svgmtsi>', so)
         so = str(so)
@@ -57,6 +68,15 @@ def get_csv(hu, idx, flag=False):
         for i in hx:
             uni = i.replace('&#x', 'uni').replace(';','')
             so = so.replace(i, json_data[uni])
+
+    if json_data != 'error':
+        hx = re.findall(r'<svgmtsi class="tagName">(.*?)</svgmtsi>', so)
+        so = str(so)
+        print('hx', hx)
+        for i in hx:
+            uni = i.replace('&#x', 'uni').replace(';', '')
+            if len(i) >= 5:
+                so = so.replace(i, tag_data[uni])
         # print(i, uni, json_data[uni])
     parser = etree.HTMLParser(encoding="utf-8")
     tree = etree.HTML(so)
@@ -80,8 +100,15 @@ def get_csv(hu, idx, flag=False):
         mid.append(shop_url)
 
         review = i.xpath('./div[@class="txt"]/div[@class="comment"]/a[@class="review-num"]//text()')
+        score = i.xpath('./div[@class="txt"]/div[@class="comment"]/div[@class="nebula_star"]/div/span/@class')[0]
+        score = int(re.findall(r'\d+', score)[0]) / 10
         mean = i.xpath('./div[@class="txt"]/div[@class="comment"]/a[@class="mean-price"]//text()')
         recommend_mid = i.xpath('./div[@class="txt"]/div[@class="recommend"]/a/text()')
+        cata_pos = i.xpath('./div[@class="txt"]/div[@class="tag-addr"]//text()')
+        cata_pos = ''.join([i.strip('\n').strip() for i in cata_pos]).split('|')
+        cata = cata_pos[0]
+        pos = cata_pos[1]
+        counp = [p.strip('\n').strip() for p in i.xpath('./div[@class="svr-info"]//text()') if len(p.strip('\n').strip()) > 10]
 
 
         recommend_mid = ' '.join(recommend_mid)
@@ -92,7 +119,11 @@ def get_csv(hu, idx, flag=False):
         mean_clean = mean.replace(' ', '').replace('\n', '').replace('\t', '').replace('\r', '')
         mid.append(review_clean)
         mid.append(mean_clean)
+        mid.append(score)
         mid.append(recommend_mid)
+        mid.append(cata)
+        mid.append(pos)
+        mid.append(counp)
         review_num.append(review_clean)
         mean_price.append(mean_clean)
         recommend.append(recommend_mid)
@@ -122,18 +153,21 @@ def list_to_csv(csv_path, datas):
             writer.writerow(row)
 
 def update_log(url):
-    with open('./log/log.csv', 'a+', newline='', encoding='utf-8') as csvfile:
+    with open('./log/logmore.csv', 'a+', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow([url])
 
 def spj(url):
-    url_list = pd.read_csv('./log/log.csv')
+    url_list = pd.read_csv('./log/logmore.csv')
     # print(url_list)
-    if url in url_list['url'].values:
-        print(url)
-        return True
-    return False
-
+    try:
+        if url in url_list['url'].values:
+            print(url)
+            return True
+        return False
+    except Exception as e:
+        print(e)
+        return False
 if __name__ == '__main__':
     # if not os.path.exists(csv_path):
     #     os.makedirs(csv_path)
@@ -146,7 +180,7 @@ if __name__ == '__main__':
                 print("{}已经爬取完成".format(k))
                 continue
             for i in range(1, 5):
-                csv_path = 'csv/{}.csv'.format(k)
+                csv_path = 'csvmore/{}.csv'.format(k)
                 list_data = get_csv(url, i)
                 list_to_csv(csv_path, list_data)
                 print("第{}页已爬取完成".format(i))
