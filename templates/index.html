@@ -9,6 +9,11 @@
 {#    <link rel="icon" href="../static/img/logo.png">#}
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/fonts/icomoon.css">
+    <script type="text/javascript">
+        var dataClass = {
+            data: {{ special|safe }}
+        }
+    </script>
 </head>
 
 <body>
@@ -123,11 +128,14 @@
             <div class="map">
                 <h3>
                     <span class="icon-cube"></span>
-                    设备数据统计
+                    当前位置
                 </h3>
                 <div class="chart">
-                    <div class="geo"></div>
+                    <iframe id="ifr" src="../now_pos" height="100%" width="99%" style="border: 0"></iframe>
                 </div>
+{#                <div class="chart">#}
+{#                    <div class="geo"></div>#}
+{#                </div>#}
             </div>
             <!-- 用户 -->
             <div class="users panel">
@@ -272,49 +280,29 @@
             <div class="top panel">
                 <div class="inner">
                     <div class="all">
-                        <h3>全国热榜</h3>
+                        <h3>地区人均消费</h3>
                         <ul>
-                            <li>
+                            {% for i in money %}
+                            <li >
                                 <i class="icon-cup1" style="color: #d93f36;"></i>
-                                可爱多
+                                {{ i|truncatechars:7 }}
                             </li>
-                            <li>
-                                <i class="icon-cup2" style="color: #68d8fe;"></i>
-                                娃哈啥
-                            </li>
-                            <li>
-                                <i class="icon-cup3" style="color: #4c9bfd;"></i>
-                                喜之郎
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="province">
-                        <h3>各省热销 <i class="date">// 近30日 //</i></h3>
+                        <h3>评论数 <i class="date">// 招牌菜 //</i></h3>
                         <div class="data">
                             <ul class="sup">
+                                {% for i in review %}
                                 <li>
-                                    <span>北京</span>
-                                    <span>25,179 <s class="icon-up"></s></span>
+                                    <span class="name">{{ i.0|truncatechars:5  }}</span>
+                                    <span>{{ i.1 }} <s class="icon-up"></s></span>
                                 </li>
-                                <li>
-                                    <span>河北</span>
-                                    <span>23,252 <s class="icon-down"></s></span>
-                                </li>
-                                <li>
-                                    <span>上海</span>
-                                    <span>20,760 <s class="icon-up"></s></span>
-                                </li>
-                                <li>
-                                    <span>江苏</span>
-                                    <span>23,252 <s class="icon-down"></s></span>
-                                </li>
-                                <li>
-                                    <span>山东</span>
-                                    <span>20,760 <s class="icon-up"></s></span>
-                                </li>
+                                {% endfor %}
                             </ul>
                             <ul class="sub">
-                                <!-- <li><span>数据</span><span> 数据<s class="icon-up"></s></span></li> -->
+{#                                <li><span>数据</span><span> 数据<s class="icon-up"></s></span></li>#}
                             </ul>
                         </div>
                     </div>

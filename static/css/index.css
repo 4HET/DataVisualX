@@ -4,7 +4,8 @@ body{
     margin: 0;
     padding: 0;
     background-repeat: no-repeat;
-    background-position: 0 0 / cover;
+    /*background-position: 0 0 / cover;*/
+    /*background-color: white;*/
     background-color: #101129;
 }
 *{
@@ -114,6 +115,7 @@ a{
 	font-size: 0.583rem;
 	padding: 0.5rem 1.5rem;
 	color: #68d8fe;
+	/*color: #68d8fe;*/
 	display: flex;
 	justify-content: space-between;
 	line-height: 1.05;
@@ -305,6 +307,7 @@ a{
 }
 .order .filter {
   display: flex;
+  color: #0C0C0C;
 }
 .order .filter a {
   display: block;
@@ -322,6 +325,7 @@ a{
   border-right: none;
 }
 .order .filter a.active {
+  /*color: burlywood;*/
   color: #fff;
   font-size: 0.833rem;
 }
