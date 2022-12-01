@@ -6,310 +6,322 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>模板2</title>
-{#    <link rel="icon" href="../static/img/logo.png">#}
+    {#    <link rel="icon" href="../static/img/logo.png">#}
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/fonts/icomoon.css">
     <script type="text/javascript">
+
         var dataClass = {
             data: {{ special|safe }}
+        }
+        var pos = {
+            data: {{ pos|safe }}
+        }
+        var cata = {
+            data: {{ cata|safe }}
+        }
+        function load() {
+
         }
     </script>
 </head>
 
-<body>
-    <div class="viewport">
-        <div class="column">
-            <!--概览-->
-            <div class="overview panel">
-                <div class="inner">
-                    <div class="item">
-                        <h4>2,190</h4>
-                        <span>
+<body onload="load();">
+<div class="viewport">
+    <div class="column">
+        <!--概览-->
+        <div class="overview panel">
+            <div class="inner">
+                <div class="item">
+                    <h4>2,190</h4>
+                    <span>
                             <i class="icon-dot" style="color: #006cff"></i>
                             设备总数
                         </span>
-                    </div>
-                    <div class="item">
-                        <h4>190</h4>
-                        <span>
+                </div>
+                <div class="item">
+                    <h4>190</h4>
+                    <span>
                             <i class="icon-dot" style="color: #6acca3"></i>
                             季度新增
                         </span>
-                    </div>
-                    <div class="item">
-                        <h4>3,001</h4>
-                        <span>
+                </div>
+                <div class="item">
+                    <h4>3,001</h4>
+                    <span>
                             <i class="icon-dot" style="color: #6acca3"></i>
                             运营设备
                         </span>
-                    </div>
-                    <div class="item">
-                        <h4>108</h4>
-                        <span>
+                </div>
+                <div class="item">
+                    <h4>108</h4>
+                    <span>
                             <i class="icon-dot" style="color: #ed3f35"></i>
                             异常设备
                         </span>
-                    </div>
                 </div>
             </div>
-            <!--监控-->
-            <div class="monitor panel">
-                <div class="inner">
-                    <div class="tabs">
-                        <a href="javascript:;" data-index="0" class="active">消费概览</a>
-                        <a href="javascript:;" data-index="1">特色菜</a>
+        </div>
+        <!--监控-->
+        <div class="monitor panel">
+            <div class="inner">
+                <div class="tabs">
+                    <a href="javascript:;" data-index="0" class="active">消费概览</a>
+                    <a href="javascript:;" data-index="1">特色菜</a>
+                </div>
+                <div class="content" style="display: block;">
+                    <div class="head">
+                        <span class="col" style="width: 50%">店铺名称</span>
+                        <span class="col">人均消费</span>
+                        <span class="col">用户评分</span>
                     </div>
-                    <div class="content" style="display: block;">
-                        <div class="head">
-                            <span class="col" style="width: 40%">店铺名称</span>
-                            <span class="col">人均消费</span>
-                            <span class="col">评价</span>
-                        </div>
-                        <div class="marquee-view">
-                            <div class="marquee" style="animation: row  {{ len }}s infinite;">
-                                {% for i in hotop %}
+                    <div class="marquee-view">
+                        <div class="marquee" style="animation: row  {{ len }}s infinite;">
+                            {% for i in hotop %}
                                 <div class="row">
-                                    <span class="col" style="width: 40%;"><a style="color: #0bace6" href="{{ i.1 }}" target="_blank">{{ i.0 }}</a></span>
+                                    <span class="col" style="width: 50%;"><a style="color: #0bace6" href="{{ i.1 }}"
+                                                                             target="_blank">{{ i.0 }}</a></span>
                                     <span class="col">{{ i.3 }}</span>
-                                    <span class="col">{{ i.2 }}</span>
-                                    <span class="icon-dot"></span>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="head">
-                            <span class="col" style="width: 40%">店铺名称</span>
-                            <span class="col">特色菜</span>
-                        </div>
-                        <div class="marquee-view">
-                            <div class="marquee" style="animation: row  {{ len }}s infinite;">
-                                {% for i in hotop %}
-                                <div class="row">
-                                    <span class="col" style="width: 40%;"><a style="color: #0bace6" href="{{ i.1 }}" target="_blank">{{ i.0 }}</a></span>
                                     <span class="col">{{ i.4 }}</span>
                                     <span class="icon-dot"></span>
                                 </div>
-                                {% endfor %}
-                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="head">
+                        <span class="col" style="width: 40%">店铺名称</span>
+                        <span class="col">特色菜</span>
+                    </div>
+                    <div class="marquee-view">
+                        <div class="marquee" style="animation: row  {{ len }}s infinite;">
+                            {% for i in hotop %}
+                                <div class="row">
+                                    <span class="col" style="width: 40%;"><a style="color: #0bace6" href="{{ i.1 }}"
+                                                                             target="_blank">{{ i.0 }}</a></span>
+                                    <span class="col">{{ i.5 }}</span>
+                                    <span class="icon-dot"></span>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-            <!--点位-->
-            <div class="point panel">
-                <div class="inner">
-                    <h3>点位分布统计</h3>
-                    <div class="chart">
-                        <div class="pie"></div>
-                        <div class="data">
-                            <div class="item">
-                                <h4>320,11</h4>
-                                <span>
+        </div>
+        <!--点位-->
+        <div class="point panel">
+            <div class="inner">
+                <h3>点位分布统计</h3>
+                <div class="chart">
+                    <div class="pie"></div>
+                    <div class="data">
+                        <div class="item">
+                            <h4>320,11</h4>
+                            <span>
                                     <i class="icon-dot" style="color: #ed3f35"></i>
                                     点位总数
                                 </span>
-                            </div>
-                            <div class="item">
-                                <h4>418</h4>
-                                <span>
+                        </div>
+                        <div class="item">
+                            <h4>418</h4>
+                            <span>
                                     <i class="icon-dot" style="color: #eacf19"></i>
                                     本月新增
                                 </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <!-- 地图 -->
-            <div class="map">
-                <h3>
-                    <span class="icon-cube"></span>
-                    当前位置
-                </h3>
-                <div class="chart">
-                    <iframe id="ifr" src="../now_pos" height="100%" width="99%" style="border: 0"></iframe>
-                </div>
-{#                <div class="chart">#}
-{#                    <div class="geo"></div>#}
-{#                </div>#}
-            </div>
-            <!-- 用户 -->
-            <div class="users panel">
-                <div class="inner">
-                    <h3>全国用户总量统计</h3>
-                    <div class="chart">
-                        <div class="bar"></div>
-                        <div class="data">
-                            <div class="item">
-                                <h4>120,899</h4>
-                                <span>
-                                    <i class="icon-dot" style="color: #ed3f35"></i>
-                                    用户总量
-                                </span>
-                            </div>
-                            <div class="item">
-                                <h4>248</h4>
-                                <span>
-                                    <i class="icon-dot" style="color: #eacf19"></i>
-                                    本月新增
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <!-- 订单 -->
-            <div class="order panel">
-                <div class="inner">
-                    <!-- 筛选 -->
-                    <div class="filter">
-                        <a href="javascript:;" data-key="day365" class="active">365天</a>
-                        <a href="javascript:;" data-key="day90">90天</a>
-                        <a href="javascript:;" data-key="day30">30天</a>
-                        <a href="javascript:;" data-key="day1">24小时</a>
-                    </div>
-                    <!-- 数据 -->
-                    <div class="data">
-                        <div class="item">
-                            <h4>20,301,987</h4>
-                            <span>
-                                <i class="icon-dot" style="color: #ed3f35;"></i>
-                                订单量
-                            </span>
-                        </div>
-                        <div class="item">
-                            <h4>99834</h4>
-                            <span>
-                                <i class="icon-dot" style="color: #eacf19;"></i>
-                                销售额(万元)
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 销售额 -->
-            <div class="sales panel">
-                <div class="inner">
-                    <div class="caption">
-                        <h3>销售额统计</h3>
-                        <a href="javascript:;" class="active" data-type="year">年</a>
-                        <a href="javascript:;" data-type="quarter">季</a>
-                        <a href="javascript:;" data-type="month">月</a>
-                        <a href="javascript:;" data-type="week">周</a>
-                    </div>
-                    <div class="chart">
-                        <div class="label">单位:万</div>
-                        <div class="line"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- 渠道 季度 -->
-            <div class="wrap">
-                <div class="channel panel">
-                    <div class="inner">
-                        <h3>渠道分布</h3>
-                        <div class="data">
-                            <div class="item">
-                                <h4>39 <small>%</small></h4>
-                                <span>
-                                    <i class="icon-plane"></i>
-                                    机场
-                                </span>
-                            </div>
-                            <div class="item">
-                                <h4>28 <small>%</small></h4>
-                                <span>
-                                    <i class="icon-bag"></i>
-                                    商场
-                                </span>
-                            </div>
-                        </div>
-                        <div class="data">
-                            <div class="item">
-                                <h4>20 <small>%</small></h4>
-                                <span>
-                                    <i class="icon-train"></i>
-                                    地铁
-                                </span>
-                            </div>
-                            <div class="item">
-                                <h4>13 <small>%</small></h4>
-                                <span>
-                                    <i class="icon-bus"></i>
-                                    火车站
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="quarter panel">
-                    <div class="inner">
-                        <h3>一季度销售进度</h3>
-                        <div class="chart">
-                            <div class="box">
-                                <div class="gauge"></div>
-                                <div class="label">75<small> %</small></div>
-                            </div>
-                            <div class="data">
-                                <div class="item">
-                                    <h4>1,321</h4>
-                                    <span>
-                                        <i class="icon-dot" style="color: #6acca3"></i>
-                                        销售额(万元)
-                                    </span>
-                                </div>
-                                <div class="item">
-                                    <h4>150%</h4>
-                                    <span>
-                                        <i class="icon-dot" style="color: #ed3f35"></i>
-                                        同比增长
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 排行榜 -->
-            <div class="top panel">
-                <div class="inner">
-                    <div class="all">
-                        <h3>地区人均消费</h3>
-                        <ul>
-                            {% for i in money %}
-                            <li >
-                                <i class="icon-cup1" style="color: #d93f36;"></i>
-                                {{ i|truncatechars:7 }}
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="province">
-                        <h3>评论数 <i class="date">// 招牌菜 //</i></h3>
-                        <div class="data">
-                            <ul class="sup">
-                                {% for i in review %}
-                                <li>
-                                    <span class="name">{{ i.0|truncatechars:5  }}</span>
-                                    <span>{{ i.1 }} <s class="icon-up"></s></span>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                            <ul class="sub">
-{#                                <li><span>数据</span><span> 数据<s class="icon-up"></s></span></li>#}
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="column">
+        <!-- 地图 -->
+        <div class="map">
+            <h3>
+                <span class="icon-cube"></span>
+                当前位置
+            </h3>
+            <div class="chart">
+                <iframe id="ifr" src="../now_pos" height="100%" width="99%" style="border: 0"></iframe>
+            </div>
+            {#                <div class="chart">#}
+            {#                    <div class="geo"></div>#}
+            {#                </div>#}
+        </div>
+        <!-- 用户 -->
+        <div class="users panel">
+            <div class="inner">
+                <h3>全国用户总量统计</h3>
+                <div class="chart">
+                    <div class="bar"></div>
+                    <div class="data">
+                        <div class="item">
+                            <h4>120,899</h4>
+                            <span>
+                                    <i class="icon-dot" style="color: #ed3f35"></i>
+                                    用户总量
+                                </span>
+                        </div>
+                        <div class="item">
+                            <h4>248</h4>
+                            <span>
+                                    <i class="icon-dot" style="color: #eacf19"></i>
+                                    本月新增
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <!-- 订单 -->
+        <div class="order panel">
+            <div class="inner">
+                <!-- 筛选 -->
+                <div class="filter">
+                    <a href="javascript:;" data-key="day365" class="active">365天</a>
+                    <a href="javascript:;" data-key="day90">90天</a>
+                    <a href="javascript:;" data-key="day30">30天</a>
+                    <a href="javascript:;" data-key="day1">24小时</a>
+                </div>
+                <!-- 数据 -->
+                <div class="data">
+                    <div class="item">
+                        <h4>20,301,987</h4>
+                        <span>
+                                <i class="icon-dot" style="color: #ed3f35;"></i>
+                                订单量
+                            </span>
+                    </div>
+                    <div class="item">
+                        <h4>99834</h4>
+                        <span>
+                                <i class="icon-dot" style="color: #eacf19;"></i>
+                                销售额(万元)
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 销售额 -->
+        <div class="sales panel">
+            <div class="inner">
+                <div class="caption">
+                    <h3>销售额统计</h3>
+                    <a href="javascript:;" class="active" data-type="year">年</a>
+                    <a href="javascript:;" data-type="quarter">季</a>
+                    <a href="javascript:;" data-type="month">月</a>
+                    <a href="javascript:;" data-type="week">周</a>
+                </div>
+                <div class="chart">
+                    <div class="label">单位:万</div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 渠道 季度 -->
+        <div class="wrap">
+            <div class="channel panel">
+                <div class="inner">
+                    <h3>渠道分布</h3>
+                    <div class="data">
+                        <div class="item">
+                            <h4>39 <small>%</small></h4>
+                            <span>
+                                    <i class="icon-plane"></i>
+                                    机场
+                                </span>
+                        </div>
+                        <div class="item">
+                            <h4>28 <small>%</small></h4>
+                            <span>
+                                    <i class="icon-bag"></i>
+                                    商场
+                                </span>
+                        </div>
+                    </div>
+                    <div class="data">
+                        <div class="item">
+                            <h4>20 <small>%</small></h4>
+                            <span>
+                                    <i class="icon-train"></i>
+                                    地铁
+                                </span>
+                        </div>
+                        <div class="item">
+                            <h4>13 <small>%</small></h4>
+                            <span>
+                                    <i class="icon-bus"></i>
+                                    火车站
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="quarter panel">
+                <div class="inner">
+                    <h3>一季度销售进度</h3>
+                    <div class="chart">
+                        <div class="box">
+                            <div class="gauge"></div>
+                            <div class="label">75<small> %</small></div>
+                        </div>
+                        <div class="data">
+                            <div class="item">
+                                <h4>1,321</h4>
+                                <span>
+                                        <i class="icon-dot" style="color: #6acca3"></i>
+                                        销售额(万元)
+                                    </span>
+                            </div>
+                            <div class="item">
+                                <h4>150%</h4>
+                                <span>
+                                        <i class="icon-dot" style="color: #ed3f35"></i>
+                                        同比增长
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 排行榜 -->
+        <div class="top panel">
+            <div class="inner">
+                <div class="all">
+                    <h3>地区人均消费</h3>
+                    <ul>
+                        {% for i in money %}
+                            <li>
+                                <i class="icon-cup1" style="color: #d93f36;"></i>
+                                {{ i|truncatechars:7 }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="province">
+                    <h3>评论数 <i class="date">// 招牌菜 //</i></h3>
+                    <div class="data">
+                        <ul class="sup">
+                            {% for i in review %}
+                                <li>
+                                    <span class="name">{{ i.0|truncatechars:5 }}</span>
+                                    <span>{{ i.1 }} <s class="icon-up"></s></span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <ul class="sub">
+                            {#                                <li><span>数据</span><span> 数据<s class="icon-up"></s></span></li>#}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 {#<script src="{% static "js/jquery.min.js" %}"></script>#}
 <script src="../static/js/echarts/echarts.min.js"></script>

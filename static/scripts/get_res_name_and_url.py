@@ -173,7 +173,8 @@ if __name__ == '__main__':
     #     os.makedirs(csv_path)
     ks = json_data.keys()
     cnt = 0
-    for k in ks:
+    for k in ['日照']:
+    # for k in ks:
         try:
             url = json_data[k]
             if spj(url):
