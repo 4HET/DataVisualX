@@ -47,6 +47,7 @@
 })();
 (function () {
     var myechart = echarts.init($('.pie')[0]);
+    var cata = cataClass.data,
     option = {
         // 控制提示
         tooltip: {
@@ -60,7 +61,7 @@
         series: [
             {
                 // 图表名称
-                name: '地区',
+                name: '种类',
                 // 图表类型
                 type: 'pie',
                 // 南丁格尔玫瑰图 有两个圆  内圆半径10%  外圆半径70%
@@ -71,16 +72,7 @@
                 // 半径模式，另外一种是 area 面积模式
                 roseType: 'radius',
                 // 数据集 value 数据的值 name 数据的名称
-                data: [
-                    { value: 20, name: '云南' },
-                    { value: 5, name: '北京' },
-                    { value: 15, name: '山东' },
-                    { value: 25, name: '河北' },
-                    { value: 20, name: '江苏' },
-                    { value: 35, name: '浙江' },
-                    { value: 30, name: '四川' },
-                    { value: 40, name: '湖北' }
-                ],
+                data: cata,
                 //文字调整
                 label: {
                     fontSize: 10

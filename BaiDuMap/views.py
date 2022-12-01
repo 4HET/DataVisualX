@@ -16,7 +16,12 @@ from django.template.defaulttags import register
 def get_item(dictionary, key):
     return dictionary.get(key)
 
-# Create your views here.
+
+@register.filter
+def get_min(a, b):
+    return a if a < b else b
+
+
 def mainmap(request):
     path = './static/scripts/json/city_list.json'
     with open(path, 'r', encoding='utf-8') as fp:
@@ -44,11 +49,30 @@ def now_pos(request):
     return render(request, 'now_pos.html')
 
 def get_cata(source):
-    pass
-
+    # print(source.iloc[:, 6])
+    # pandas统计词频
+    name = source.iloc[:, 6].value_counts().index
+    times = source.iloc[:, 6].value_counts().values
+    print(len(name))
+    cata = []
+    idx = 0
+    for i in range(len(name)):
+        cata.append({'value': times[i], 'name': name[i]})
+        idx += 1
+        if idx >= 10:
+            break
+    return cata, len(name)
 def get_pos(source):
-    pass
-
+    name = source.iloc[:, 7].value_counts().index
+    times = source.iloc[:, 7].value_counts().values
+    pos = []
+    idx = 0
+    for i in range(len(name)):
+        pos.append({'value': times[i], 'name': name[i]})
+        idx += 1
+        if idx >= 10:
+            break
+    return pos
 def index(request):
     k = '日照'
     if request.method == 'GET':
@@ -67,15 +91,16 @@ def index(request):
     cata = []
     pos = []
     special = {}
+    catanum = 0
 
     if k in city_keys:
         path = f'./static/scripts/csvmore/{k}.csv'
-        top = pd.read_csv(path)
-        # 替换nan
+        top = pd.read_csv(path, header=None)
         top = top.fillna('0')
-        cata = get_cata(top)
+        cata, catanum = get_cata(top)
         pos = get_pos(top)
         special_list = np.array(top)[:, [0, 5]]
+
         data = np.array(top)
 
         for i in range(len(data)):
@@ -107,7 +132,8 @@ def index(request):
            'money': money.tolist(),
            'special': special,
            'cata': cata,
-           'pos': pos}
+           'pos': pos,
+           'catanum': catanum}
     return render(request, 'index.html', ctx)
 
 
@@ -144,6 +170,6 @@ if __name__ == '__main__':
 
     k = get_key()
     if k in city_keys:
-        path = f'../static/scripts/csv/{k}.csv'
-        top = pd.read_csv(path)
-
+        path = f'../static/scripts/csvmore/{k}.csv'
+        top = pd.read_csv(path, header=None)
+        print(get_cata(top))

@@ -17,16 +17,13 @@
         var pos = {
             data: {{ pos|safe }}
         }
-        var cata = {
+        var cataClass = {
             data: {{ cata|safe }}
-        }
-        function load() {
-
         }
     </script>
 </head>
 
-<body onload="load();">
+<body>
 <div class="viewport">
     <div class="column">
         <!--概览-->
@@ -112,22 +109,25 @@
         <!--点位-->
         <div class="point panel">
             <div class="inner">
-                <h3>点位分布统计</h3>
+                <h3>类别分布统计</h3>
                 <div class="chart">
                     <div class="pie"></div>
                     <div class="data">
                         <div class="item">
-                            <h4>320,11</h4>
+                            <h4>{{ catanum|safe }}</h4>
                             <span>
                                     <i class="icon-dot" style="color: #ed3f35"></i>
-                                    点位总数
+                                种类总数
                                 </span>
                         </div>
                         <div class="item">
-                            <h4>418</h4>
+                            {% block base %}
+                                <h4>{{ 10|get_min:catanum }}</h4>
+                            {% endblock %}
+
                             <span>
                                     <i class="icon-dot" style="color: #eacf19"></i>
-                                    本月新增
+                                    目前显示
                                 </span>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
         <!-- 用户 -->
         <div class="users panel">
             <div class="inner">
-                <h3>全国用户总量统计</h3>
+                <h3>地区分布统计</h3>
                 <div class="chart">
                     <div class="bar"></div>
                     <div class="data">
