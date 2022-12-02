@@ -12,6 +12,10 @@ from xpinyin import Pinyin
 
 from django.template.defaulttags import register
 
+from BaiDuMap.mid import baidu
+from BaiDuMap.sqlHelper import select, insert
+
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
@@ -46,7 +50,44 @@ def mainmap(request):
 
 
 def now_pos(request):
-    return render(request, 'now_pos.html')
+    k = '日照'
+    latlng = {}
+    if request.method == 'GET':
+        k = request.COOKIES.get('name')
+        path = f'./static/scripts/csvmore/{k}.csv'
+        addr = k + pd.read_csv(path).iloc[:, 7]
+        source = addr.value_counts()
+
+        # pandas统计词频
+        name = source.index.tolist()
+        times = source.values.tolist()
+        remb = {}
+        json_data = []
+        for i in range(len(name)):
+            remb[name[i]] = times[i]
+        for i in name:
+            if select(i) == 0:
+                lat, lng = baidu(i)
+                if lat == 0 and lng == 0:
+                    continue
+                # print(i, lat, lng)
+                insert(name=i, lat=lat, lng=lng)
+                json_data.append({"lng":f"{lng}","lat":f"{lat}","count":f"{remb[i]}"})
+                # print("插入成功")
+            else:
+                dt = select(i)
+                lat = dt['lat']
+                lng = dt['lng']
+                # print(i, lat, lng)
+                json_data.append({"lng":f"{lng}","lat":f"{lat}","count":f"{remb[i]}"})
+                # print(f"{select(i)}---查询成功")
+        # print('---------------------------------')
+        # print(k)
+        # print(json_data)
+        # print('---------------------------------')
+        print(json_data[0])
+    return render(request, 'now_pos.html', {"json_data": json_data})
+
 
 def get_cata(source):
     # print(source.iloc[:, 6])
@@ -61,6 +102,8 @@ def get_cata(source):
         if idx >= 10:
             break
     return cata, len(name)
+
+
 def get_pos(source):
     name = source.iloc[:, 7].value_counts().index
     times = source.iloc[:, 7].value_counts().values
@@ -75,6 +118,7 @@ def get_pos(source):
         if idx >= 10:
             break
     return pos_name, pos_num, posnum
+
 
 def get_echart(linear):
     linear = linear.dropna()
