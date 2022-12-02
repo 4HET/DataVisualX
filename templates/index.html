@@ -10,15 +10,23 @@
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/fonts/icomoon.css">
     <script type="text/javascript">
-
         var dataClass = {
             data: {{ special|safe }}
         }
-        var pos = {
-            data: {{ pos|safe }}
+        var pos_name = {
+            data: {{ pos_name|safe }}
+        }
+        var pos_num = {
+            data: {{ pos_num|safe }}
         }
         var cataClass = {
             data: {{ cata|safe }}
+        }
+        var xClass = {
+            data: {{ x|safe }}
+        }
+        var chartClass = {
+            data: {{ linear|safe }}
         }
     </script>
 </head>
@@ -157,17 +165,17 @@
                     <div class="bar"></div>
                     <div class="data">
                         <div class="item">
-                            <h4>120,899</h4>
+                            <h4>{{ posnum }}</h4>
                             <span>
                                     <i class="icon-dot" style="color: #ed3f35"></i>
-                                    用户总量
+                                    地区总数
                                 </span>
                         </div>
                         <div class="item">
-                            <h4>248</h4>
+                            <h4>{{ 10|get_min:posnum }}</h4>
                             <span>
                                     <i class="icon-dot" style="color: #eacf19"></i>
-                                    本月新增
+                                    目前显示
                                 </span>
                         </div>
                     </div>
@@ -206,84 +214,31 @@
             </div>
         </div>
         <!-- 销售额 -->
-        <div class="sales panel">
+        <div class="sales panel" style="height: 50%">
             <div class="inner">
                 <div class="caption">
                     <h3>销售额统计</h3>
-                    <a href="javascript:;" class="active" data-type="year">年</a>
-                    <a href="javascript:;" data-type="quarter">季</a>
-                    <a href="javascript:;" data-type="month">月</a>
-                    <a href="javascript:;" data-type="week">周</a>
+                    <a href="javascript:;" class="active" data-type="year">part1</a>
+                    <a href="javascript:;" data-type="quarter">part2</a>
+                    <a href="javascript:;" data-type="month">part3</a>
+                    <a href="javascript:;" data-type="week">part4</a>
                 </div>
                 <div class="chart">
-                    <div class="label">单位:万</div>
+                    <div class="label">单位:条</div>
                     <div class="line"></div>
                 </div>
             </div>
         </div>
         <!-- 渠道 季度 -->
-        <div class="wrap">
-            <div class="channel panel">
-                <div class="inner">
-                    <h3>渠道分布</h3>
-                    <div class="data">
-                        <div class="item">
-                            <h4>39 <small>%</small></h4>
-                            <span>
-                                    <i class="icon-plane"></i>
-                                    机场
-                                </span>
-                        </div>
-                        <div class="item">
-                            <h4>28 <small>%</small></h4>
-                            <span>
-                                    <i class="icon-bag"></i>
-                                    商场
-                                </span>
-                        </div>
-                    </div>
-                    <div class="data">
-                        <div class="item">
-                            <h4>20 <small>%</small></h4>
-                            <span>
-                                    <i class="icon-train"></i>
-                                    地铁
-                                </span>
-                        </div>
-                        <div class="item">
-                            <h4>13 <small>%</small></h4>
-                            <span>
-                                    <i class="icon-bus"></i>
-                                    火车站
-                                </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="wrap"  style="display: none">
             <div class="quarter panel">
                 <div class="inner">
-                    <h3>一季度销售进度</h3>
+                    <h3>团购活动</h3>
                     <div class="chart">
                         <div class="box">
-                            <div class="gauge"></div>
-                            <div class="label">75<small> %</small></div>
+                            <div class="gauge" style="display: none"></div>
                         </div>
-                        <div class="data">
-                            <div class="item">
-                                <h4>1,321</h4>
-                                <span>
-                                        <i class="icon-dot" style="color: #6acca3"></i>
-                                        销售额(万元)
-                                    </span>
-                            </div>
-                            <div class="item">
-                                <h4>150%</h4>
-                                <span>
-                                        <i class="icon-dot" style="color: #ed3f35"></i>
-                                        同比增长
-                                    </span>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -314,7 +269,6 @@
                             {% endfor %}
                         </ul>
                         <ul class="sub">
-                            {#                                <li><span>数据</span><span> 数据<s class="icon-up"></s></span></li>#}
                         </ul>
                     </div>
                 </div>

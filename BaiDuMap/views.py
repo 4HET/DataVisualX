@@ -53,7 +53,6 @@ def get_cata(source):
     # pandas统计词频
     name = source.iloc[:, 6].value_counts().index
     times = source.iloc[:, 6].value_counts().values
-    print(len(name))
     cata = []
     idx = 0
     for i in range(len(name)):
@@ -65,14 +64,32 @@ def get_cata(source):
 def get_pos(source):
     name = source.iloc[:, 7].value_counts().index
     times = source.iloc[:, 7].value_counts().values
-    pos = []
+    posnum = len(name)
+    pos_name = []
+    pos_num = []
     idx = 0
     for i in range(len(name)):
-        pos.append({'value': times[i], 'name': name[i]})
+        pos_name.append(name[i])
+        pos_num.append(times[i])
         idx += 1
         if idx >= 10:
             break
-    return pos
+    return pos_name, pos_num, posnum
+
+def get_echart(linear):
+    linear = linear.dropna()
+    linear.iloc[:, 0] = linear.iloc[:, 0].str.replace('o', '0').str.replace('条评价', '').astype(int)
+    linear.iloc[:, 1] = linear.iloc[:, 1] * linear.iloc[:, 0].mean()
+    res = []
+    hang = linear.shape[0] // 4
+    x = [i for i in range(1, hang + 1)]
+    for i in range(1, 5):
+        a = linear.iloc[(i - 1) * hang:i * hang, 0].tolist()
+        b = linear.iloc[(i - 1) * hang:i * hang, 1].tolist()
+        res.append([a, b])
+    return res, x
+
+
 def index(request):
     k = '日照'
     if request.method == 'GET':
@@ -96,9 +113,11 @@ def index(request):
     if k in city_keys:
         path = f'./static/scripts/csvmore/{k}.csv'
         top = pd.read_csv(path, header=None)
+        linear = top.iloc[:, [2, 4]]
+        linear, x = get_echart(linear)
         top = top.fillna('0')
         cata, catanum = get_cata(top)
-        pos = get_pos(top)
+        pos_name, pos_num, posnum = get_pos(top)
         special_list = np.array(top)[:, [0, 5]]
 
         data = np.array(top)
@@ -132,8 +151,12 @@ def index(request):
            'money': money.tolist(),
            'special': special,
            'cata': cata,
-           'pos': pos,
-           'catanum': catanum}
+           'pos_name': pos_name,
+           'pos_num': pos_num,
+           'catanum': catanum,
+           'posnum': posnum,
+           'linear': linear,
+           'x': x}
     return render(request, 'index.html', ctx)
 
 
@@ -168,8 +191,10 @@ if __name__ == '__main__':
         fp.close()
     city_keys = list(city.keys())
 
-    k = get_key()
+    k = '阿拉善'
+    # k = get_key()
     if k in city_keys:
         path = f'../static/scripts/csvmore/{k}.csv'
         top = pd.read_csv(path, header=None)
-        print(get_cata(top))
+        linear = top.iloc[:, [2, 4]]
+        print(get_echart(linear))

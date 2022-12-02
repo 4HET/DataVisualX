@@ -48,7 +48,8 @@ def get_csv(hu, idx, flag=False):
     url = hu + '/ch10/o2p{}'.format(idx)
 
     headers = {
-    'Cookie': '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=7db62757-4617-03c5-8227-a3b30a9803c6.1666510368; s_ViewType=10; WEBDFPID=5w0830xz08w35yvu197y7429u76xy6u781596x519x997958zvww6ww3-1981870520158-1666510519831MQUYSAUfd79fef3d01d5e9aadc18ccd4d0c95077639; ctu=3eada7613bfd5549da00debc4ee9ff6190908a18a5ec7383aee478c9ff16b664; fspop=test; cy=1946; cye=bange; dper=de89a983a903d8800d8406b5e096b455290424d5cd5b889f9d0313532957c54f62516b79d73044ac32008348c20522b285b6d3a3a37fcca240e3362fe3d1ded7; ll=7fd06e815b796be3df069dec7836c3df; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1667300145,1667380665; _lxsdk_s=18437a1da35-371-25-597%7C%7C77; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1667380682',
+    'Cookie': 'navCtgScroll=0; navCtgScroll=0; _lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=9fec2d1c-9253-9f08-843d-4d8d0bd47aaa.1668095623; s_ViewType=10; __utma=205923334.1124010926.1668848108.1668848108.1668848108.1; __utmz=205923334.1668848108.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); WEBDFPID=8x7y7yz136w6589yz97u5zwy8z6x294v8151u8y12zx979588w9915xu-1984208257365-1668848257101QMIMWGKfd79fef3d01d5e9aadc18ccd4d0c95071406; ctu=a844c01be22ef759c6c5361529512f16497f46a499ee165b21465ed4ebb4dcf7; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1669890839,1669892770; cy=1; cye=shanghai; dper=de89a983a903d8800d8406b5e096b4557e1fdb647ea48c5b233c80d1c21eeb6d04bf5bcd321133050e7e0d7edef99073d64a368e1fe09168b04ad9d5f3b2d1fd; ll=7fd06e815b796be3df069dec7836c3df; _lx_utm=utm_source=bing&utm_medium=organic; _lxsdk_s=184cd823dbd-332-40b-42a||118; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1669895195',
+    # 'Cookie': '_lxsdk_cuid=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _lxsdk=18403c22a69c8-0cbd5899ee277f-7b555472-384000-18403c22a69c8; _hc.v=7db62757-4617-03c5-8227-a3b30a9803c6.1666510368; s_ViewType=10; WEBDFPID=5w0830xz08w35yvu197y7429u76xy6u781596x519x997958zvww6ww3-1981870520158-1666510519831MQUYSAUfd79fef3d01d5e9aadc18ccd4d0c95077639; ctu=3eada7613bfd5549da00debc4ee9ff6190908a18a5ec7383aee478c9ff16b664; fspop=test; cy=1946; cye=bange; dper=de89a983a903d8800d8406b5e096b455290424d5cd5b889f9d0313532957c54f62516b79d73044ac32008348c20522b285b6d3a3a37fcca240e3362fe3d1ded7; ll=7fd06e815b796be3df069dec7836c3df; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1667300145,1667380665; _lxsdk_s=18437a1da35-371-25-597%7C%7C77; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1667380682',
     'Host': 'www.dianping.com',
     'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36',
     # 'User-Agent': UserAgent().random,
@@ -173,14 +174,14 @@ if __name__ == '__main__':
     #     os.makedirs(csv_path)
     ks = json_data.keys()
     cnt = 0
-    for k in ['日照']:
+    for k in ['肥城市']:
     # for k in ks:
         try:
             url = json_data[k]
             if spj(url):
                 print("{}已经爬取完成".format(k))
                 continue
-            for i in range(1, 5):
+            for i in range(1, 50):
                 csv_path = 'csvmore/{}.csv'.format(k)
                 list_data = get_csv(url, i)
                 list_to_csv(csv_path, list_data)

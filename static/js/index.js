@@ -48,48 +48,50 @@
 (function () {
     var myechart = echarts.init($('.pie')[0]);
     var cata = cataClass.data,
-    option = {
-        // 控制提示
-        tooltip: {
-            // 非轴图形，使用item的意思是放到数据对应图形上触发提示
-            trigger: 'item',
-            // 格式化提示内容：
-            // a 代表图表名称 b 代表数据名称 c 代表数据  d代表  当前数据/总数据的比例
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        // 控制图表
-        series: [
-            {
-                // 图表名称
-                name: '种类',
-                // 图表类型
-                type: 'pie',
-                // 南丁格尔玫瑰图 有两个圆  内圆半径10%  外圆半径70%
-                // 百分比基于  图表DOM容器的半径
-                radius: ['10%', '70%'],
-                // 图表中心位置 left 50%  top 50% 距离图表DOM容器
-                center: ['50%', '50%'],
-                // 半径模式，另外一种是 area 面积模式
-                roseType: 'radius',
-                // 数据集 value 数据的值 name 数据的名称
-                data: cata,
-                //文字调整
-                label: {
-                    fontSize: 10
-                },
-                //引导线
-                labelLine: {
-                    length: 8,
-                    length2: 10
+        option = {
+            // 控制提示
+            tooltip: {
+                // 非轴图形，使用item的意思是放到数据对应图形上触发提示
+                trigger: 'item',
+                // 格式化提示内容：
+                // a 代表图表名称 b 代表数据名称 c 代表数据  d代表  当前数据/总数据的比例
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            // 控制图表
+            series: [
+                {
+                    // 图表名称
+                    name: '种类',
+                    // 图表类型
+                    type: 'pie',
+                    // 南丁格尔玫瑰图 有两个圆  内圆半径10%  外圆半径70%
+                    // 百分比基于  图表DOM容器的半径
+                    radius: ['10%', '70%'],
+                    // 图表中心位置 left 50%  top 50% 距离图表DOM容器
+                    center: ['50%', '50%'],
+                    // 半径模式，另外一种是 area 面积模式
+                    roseType: 'radius',
+                    // 数据集 value 数据的值 name 数据的名称
+                    data: cata,
+                    //文字调整
+                    label: {
+                        fontSize: 10
+                    },
+                    //引导线
+                    labelLine: {
+                        length: 8,
+                        length2: 10
+                    }
                 }
-            }
-        ],
-        color: ['#006cff', '#60cda0', '#ed8884', '#ff9f7f', '#0096ff', '#9fe6b8', '#32c5e9', '#1d9dff']
-    };
+            ],
+            color: ['#006cff', '#60cda0', '#ed8884', '#ff9f7f', '#0096ff', '#9fe6b8', '#32c5e9', '#1d9dff']
+        };
     myechart.setOption(option);
 })();
 // 用户
 (function () {
+    posname = pos_name.data;
+    posnum = pos_num.data;
     // 中间省略的数据  准备三项
     var item = {
         name: '',
@@ -140,7 +142,7 @@
                 // 使用类目，必须有data属性
                 type: 'category',
                 // 使用 data 中的数据设为刻度文字
-                data: ['上海', '广州', '北京', '深圳', '合肥', '', '......', '', '杭州', '厦门', '济南', '成都', '重庆'],
+                data: posname,
                 // 刻度设置
                 axisTick: {
                     // true意思：图形在刻度中间
@@ -150,7 +152,8 @@
                 },
                 //文字
                 axisLabel: {
-                    color: '#4c9bfd'
+                    color: '#4c9bfd',
+                    rotate: 40
                 }
             }
         ],
@@ -188,19 +191,19 @@
                         // (x1,y2) 点到点 (x2,y2) 之间进行渐变
                         0, 0, 0, 1,
                         [
-                            { offset: 0, color: '#00fffb' }, // 0 起始颜色
-                            { offset: 1, color: '#0061ce' }  // 1 结束颜色
+                            {offset: 0, color: '#00fffb'}, // 0 起始颜色
+                            {offset: 1, color: '#0061ce'}  // 1 结束颜色
                         ]
                     )
                 },
                 // 图表数据名称
-                name: '用户统计',
+                name: '地区统计',
                 // 图表类型
                 type: 'bar',
                 // 柱子宽度
                 barWidth: '60%',
                 // 数据
-                data: [2100, 1900, 1700, 1560, 1400, item, item, item, 900, 750, 600, 480, 240]
+                data: posnum
             }
         ]
     };
@@ -211,10 +214,10 @@
 //订单
 (function () {
     var data = {
-        day365: { orders: '20,301,987', amount: '99834' },
-        day90: { orders: '301,987', amount: '9834' },
-        day30: { orders: '1,987', amount: '3834' },
-        day1: { orders: '987', amount: '834' }
+        day365: {orders: '20,301,987', amount: '99834'},
+        day90: {orders: '301,987', amount: '9834'},
+        day30: {orders: '1,987', amount: '3834'},
+        day1: {orders: '987', amount: '834'}
     }
     //点击事件
     $('.order').on('click', '.filter a', function () {
@@ -242,16 +245,19 @@
 })();
 //销售
 (function () {
+    var x = xClass.data;
+    var chart = chartClass.data;
     var option = {
         //鼠标提示工具
         tooltip: {
             trigger: 'axis'
         },
         xAxis: {
-            // 类目类型                                  
+            // 类目类型
             type: 'category',
-            // x轴刻度文字                                  
-            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            // x轴刻度文字
+            data: x,
+            // data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
             axisTick: {
                 show: false//去除刻度线
             },
@@ -259,12 +265,12 @@
                 color: '#4c9bfd'//文本颜色
             },
             axisLine: {
-                show: false//去除轴线  
+                show: false//去除轴线
             },
             boundaryGap: false//去除轴内间距
         },
         yAxis: {
-            // 数据作为刻度文字                                  
+            // 数据作为刻度文字
             type: 'value',
             axisTick: {
                 show: false//去除刻度线
@@ -273,7 +279,7 @@
                 color: '#4c9bfd'//文本颜色
             },
             axisLine: {
-                show: false//去除轴线  
+                show: false//去除轴线
             },
             boundaryGap: false//去除轴内间距
         },
@@ -296,29 +302,31 @@
             containLabel: true // 包含刻度文字在内
         },
         series: [{
-            name: '预期销售额',
-            // 数据                                  
-            data: [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120],
-            // 图表类型                                  
+            name: '评论数',
+            // 数据
+            data: chart[0][0],
+            // data: [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120, 24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120],
+            // 图表类型
             type: 'line',
-            // 圆滑连接                                  
+            // 圆滑连接
             smooth: true,
             itemStyle: {
                 color: '#00f2f1'  // 线颜色
             }
         },
-        {
-            name: '实际销售额',
-            // 数据                                  
-            data: [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79],
-            // 图表类型                                  
-            type: 'line',
-            // 圆滑连接                                  
-            smooth: true,
-            itemStyle: {
-                color: '#ed3f35'  // 线颜色
-            }
-        }]
+            {
+                name: '用户实际打分',
+                // 数据
+                data: chart[0][1],
+                // data: [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79, 40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79],
+                // 图表类型
+                type: 'line',
+                // 圆滑连接
+                smooth: true,
+                itemStyle: {
+                    color: '#ed3f35'  // 线颜色
+                }
+            }]
     };
     var myechart = echarts.init($('.line')[0]);
     myechart.setOption(option);
@@ -326,20 +334,20 @@
     //点击效果
     var data = {
         year: [
-            [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120],
-            [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79]
+            chart[0][0],
+            chart[0][1]
         ],
         quarter: [
-            [23, 75, 12, 97, 21, 67, 98, 21, 43, 64, 76, 38],
-            [43, 31, 65, 23, 78, 21, 82, 64, 43, 60, 19, 34]
+            chart[1][0],
+            chart[1][1]
         ],
         month: [
-            [34, 87, 32, 76, 98, 12, 32, 87, 39, 36, 29, 36],
-            [56, 43, 98, 21, 56, 87, 43, 12, 43, 54, 12, 98]
+            chart[2][0],
+            chart[2][1]
         ],
         week: [
-            [43, 73, 62, 54, 91, 54, 84, 43, 86, 43, 54, 53],
-            [32, 54, 34, 87, 32, 45, 62, 68, 93, 54, 54, 24]
+            chart[3][0],
+            chart[3][1]
         ]
     }
     $('.sales ').on('click', '.caption a', function () {
@@ -361,7 +369,8 @@
         index++;
         if (index > 4) {
             index = 0;
-        };
+        }
+        ;
         $('.sales .caption a').eq(index).click();
     }, 2000);
 })();
@@ -388,15 +397,15 @@
                                 x2: 0,
                                 y2: 1,
                                 colorStops: [
-                                    { offset: 0, color: '#00c9e0' },
-                                    { offset: 1, color: '#005fc1' }
+                                    {offset: 0, color: '#00c9e0'},
+                                    {offset: 1, color: '#005fc1'}
                                 ]
                             }
                         }
                     },
-                    { value: 100, itemStyle: { color: '#12274d' } }, // 颜色#12274d
+                    {value: 100, itemStyle: {color: '#12274d'}}, // 颜色#12274d
 
-                    { value: 200, itemStyle: { color: 'transparent' } }// 透明隐藏第三块区域
+                    {value: 200, itemStyle: {color: 'transparent'}}// 透明隐藏第三块区域
                 ]
             }
         ]
@@ -411,22 +420,17 @@
     //     data.push({ name: mid[i][0]});
     // }
     // console.log(data);
-    var data = [
-        { name: '巧克力', num: '9,086' },
-        { name: '巧克力', num: '8,341' },
-        { name: '巧克力', num: '7,407' },
-        { name: '巧克力', num: '6,080' },
-        { name: '巧克力', num: '6,724' },
-        { name: '巧克力', num: '2,170' },
-    ]
+
     $('.inner').on('mouseenter', '.sup li', function () {
         $(this).addClass('active').siblings().removeClass('active');
         var name = $(this).addClass('active').text();
-        var k = name.trim().split(" ")[0].substring(0,3);
+        var k = name.trim().split(" ")[0].substring(0, 3);
         var data = mid[k];
         //获取随机的值  sort方法 是给数组排序 a-b是从小到大
         //.5-随机0-1的数 可能为正可能为负 排序就会随机
-        var radomData = data.sort(function (a, b) { return 0.5 - Math.random() });
+        var radomData = data.sort(function (a, b) {
+            return 0.5 - Math.random()
+        });
         var html = '';
         radomData.forEach(function (item) {
             html += `<li><span style="font-size: 14px">${item}</span><s class="icon-up"></s></li>`;

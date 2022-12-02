@@ -11,7 +11,7 @@
 
         change_html = function (source) {
             // 设置cookie
-            document.cookie = "name=" + source+";Path="+escape("/");
+            document.cookie = "name=" + source + ";Path=" + escape("/");
             document.getElementById('ifm').setAttribute('src', '/index');
         }
     </script>
@@ -35,7 +35,18 @@
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
-                        <template slot="title"><i class="el-icon-menu"></i>省份</template>
+                        <template slot="title"><i class="el-icon-menu"></i>发达城市</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1">层次分析法</el-menu-item>
+                            <el-menu-item index="3-2">因子分析（探索性）</el-menu-item>
+                            <el-menu-item index="3-3">数据包络分析</el-menu-item>
+                            <el-menu-item index="3-4">优劣距离法（TOPSIS）</el-menu-item>
+                            <el-menu-item index="3-5">秩和比综合评价法（RSR）</el-menu-item>
+                            <el-menu-item index="3-6">耦合协调度</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title"><i class="el-icon-menu"></i>所有城市</template>
                         {% for r in ks %}
                             <el-submenu index="{{ r }}">
                                 <template slot="title">{{ r|upper }}</template>
@@ -51,17 +62,7 @@
                             </el-submenu>
                         {% endfor %}
                     </el-submenu>
-                    <el-submenu index="3">
-                        <template slot="title"><i class="el-icon-menu"></i>综合评价</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="3-1">层次分析法</el-menu-item>
-                            <el-menu-item index="3-2">因子分析（探索性）</el-menu-item>
-                            <el-menu-item index="3-3">数据包络分析</el-menu-item>
-                            <el-menu-item index="3-4">优劣距离法（TOPSIS）</el-menu-item>
-                            <el-menu-item index="3-5">秩和比综合评价法（RSR）</el-menu-item>
-                            <el-menu-item index="3-6">耦合协调度</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
+
                     <el-submenu index="4">
                         <template slot="title"><i class="el-icon-menu"></i>参数检验</template>
                         <el-menu-item-group>
