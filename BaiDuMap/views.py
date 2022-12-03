@@ -12,7 +12,7 @@ from xpinyin import Pinyin
 
 from django.template.defaulttags import register
 
-from BaiDuMap.mid import baidu
+from BaiDuMap.mid import baidu, get_province
 from BaiDuMap.sqlHelper import select, insert
 
 
@@ -42,10 +42,13 @@ def mainmap(request):
         first_pinyin[a].append(city_keys[i])
     ks = list(first_pinyin.keys())
     ks.sort()
+    hot_city = ['北京', '上海', '广州', '深圳', '杭州', '南京', '成都', '武汉', '西安', '长沙', '厦门', '天津', '苏州',
+                '重庆', '青岛']
     # print(first_pinyin)
     ctx = {'city': city_keys,
            'first_pinyin': first_pinyin,
-           'ks': ks}
+           'ks': ks,
+           'hot_city': hot_city}
     return render(request, 'main_map.html', ctx)
 
 
@@ -55,6 +58,10 @@ def now_pos(request):
     if request.method == 'GET':
         k = request.COOKIES.get('name')
         path = f'./static/scripts/csvmore/{k}.csv'
+        hot_city = ['北京', '上海', '广州', '深圳', '杭州', '南京', '成都', '武汉', '西安', '长沙', '厦门', '天津',
+                    '苏州', '重庆', '青岛']
+        if k in hot_city:
+            path = f'./static/scripts/hot_city/{k}.csv'
         addr = k + pd.read_csv(path).iloc[:, 7]
         source = addr.value_counts()
 
@@ -72,14 +79,14 @@ def now_pos(request):
                     continue
                 # print(i, lat, lng)
                 insert(name=i, lat=lat, lng=lng)
-                json_data.append({"lng":f"{lng}","lat":f"{lat}","count":f"{remb[i]}"})
+                json_data.append({"lng": f"{lng}", "lat": f"{lat}", "count": f"{remb[i]}"})
                 # print("插入成功")
             else:
                 dt = select(i)
                 lat = dt['lat']
                 lng = dt['lng']
                 # print(i, lat, lng)
-                json_data.append({"lng":f"{lng}","lat":f"{lat}","count":f"{remb[i]}"})
+                json_data.append({"lng": f"{lng}", "lat": f"{lat}", "count": f"{remb[i]}"})
                 # print(f"{select(i)}---查询成功")
         # print('---------------------------------')
         # print(k)
@@ -136,6 +143,8 @@ def get_echart(linear):
 
 def index(request):
     k = '日照'
+    hot_c = ['北京', '上海', '广州', '深圳', '杭州', '南京', '成都', '武汉', '西安', '长沙', '厦门', '天津', '苏州',
+             '重庆', '青岛']
     if request.method == 'GET':
         print('---------------------------------')
         k = request.COOKIES.get('name')
@@ -156,6 +165,8 @@ def index(request):
 
     if k in city_keys:
         path = f'./static/scripts/csvmore/{k}.csv'
+        if k in hot_c:
+            path = f'./static/scripts/hot_city/{k}.csv'
         top = pd.read_csv(path, header=None)
         linear = top.iloc[:, [2, 4]]
         linear, x = get_echart(linear)
@@ -189,35 +200,30 @@ def index(request):
             special[i[0][0:3]] = i[1].split(' ')[0: min(len(i[1].split(' ')), 4)]
 
     # return render(request, 'index.html', {'hotop': data.tolist(), 'len': len(data) * 2})
-    ctx = {'hotop': data.tolist(),
-           'len': len(data) * 2,
-           'review': review.tolist(),
-           'money': money.tolist(),
-           'special': special,
-           'cata': cata,
-           'pos_name': pos_name,
-           'pos_num': pos_num,
-           'catanum': catanum,
-           'posnum': posnum,
-           'linear': linear,
-           'x': x}
+    ctx = {
+        'k': k,
+        'hotop': data.tolist(),
+        'len': len(data) * 2,
+        'review': review.tolist(),
+        'money': money.tolist(),
+        'special': special,
+        'cata': cata,
+        'pos_name': pos_name,
+        'pos_num': pos_num,
+        'catanum': catanum,
+        'posnum': posnum,
+        'linear': linear,
+        'x': x}
     return render(request, 'index.html', ctx)
 
 
 def hot(request):
-    path = './static/scripts/json/city_list.json'
-    with open(path, 'r', encoding='utf-8') as fp:
-        city = json.load(fp)
-        fp.close()
-    city_keys = list(city.keys())
+    json_data = []
+    df = pd.read_csv('./static/scripts/hot_city/hot_city.csv', header=None)
+    for i in range(len(df)):
+        json_data.append({"lng": f"{df.iloc[i,0]}", "lat": f"{df.iloc[i,1]}", "count": f"1"})
 
-    k = get_key()
-    if k in city_keys:
-        path = f'./static/scripts/csv/{k}.csv'
-        top = pd.read_csv(path)
-        # print(type(top))
-        # print(top)
-    return render(request, 'hotop.html', {'hotop': np.array(top).tolist()})
+    return render(request, 'hotop.html', {"json_data": json_data})
 
 
 def get_key():
@@ -229,16 +235,4 @@ def get_key():
 
 
 if __name__ == '__main__':
-    path = '../static/scripts/json/city_list.json'
-    with open(path, 'r', encoding='utf-8') as fp:
-        city = json.load(fp)
-        fp.close()
-    city_keys = list(city.keys())
-
-    k = '阿拉善'
-    # k = get_key()
-    if k in city_keys:
-        path = f'../static/scripts/csvmore/{k}.csv'
-        top = pd.read_csv(path, header=None)
-        linear = top.iloc[:, [2, 4]]
-        print(get_echart(linear))
+    get_province()

@@ -213,11 +213,12 @@
 
 //订单
 (function () {
+    var cata = cataClass.data;
     var data = {
-        day365: {orders: '20,301,987', amount: '99834'},
-        day90: {orders: '301,987', amount: '9834'},
-        day30: {orders: '1,987', amount: '3834'},
-        day1: {orders: '987', amount: '834'}
+        day365: {orders: cata[0]['name'], amount: cata[0]['value']},
+        day90: {orders: cata[1]['name'], amount: cata[1]['value']},
+        day30: {orders: cata[2]['name'], amount: cata[2]['value']},
+        day1: {orders: cata[3]['name'], amount: cata[3]['value']}
     }
     //点击事件
     $('.order').on('click', '.filter a', function () {
@@ -315,7 +316,7 @@
             }
         },
             {
-                name: '用户实际打分',
+                name: '店铺评分*评论数均值',
                 // 数据
                 data: chart[0][1],
                 // data: [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79, 40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79],

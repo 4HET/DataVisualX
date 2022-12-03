@@ -174,7 +174,8 @@ if __name__ == '__main__':
     #     os.makedirs(csv_path)
     ks = json_data.keys()
     cnt = 0
-    for k in ['肥城市']:
+    hot_city = ['北京', '广州', '深圳', '杭州', '成都', '武汉', '西安', '长沙', '厦门', '天津', '苏州', '重庆', '青岛']
+    for k in hot_city:
     # for k in ks:
         try:
             url = json_data[k]

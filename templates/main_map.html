@@ -10,9 +10,11 @@
     <script>
 
         change_html = function (source) {
-            // 设置cookie
             document.cookie = "name=" + source + ";Path=" + escape("/");
             document.getElementById('ifm').setAttribute('src', '/index');
+        }
+        change_hot = function () {
+            document.getElementById('ifm').setAttribute('src', '/hot');
         }
     </script>
 </head>
@@ -26,7 +28,7 @@
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-menu"></i>全国信息</template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1">信度分析</el-menu-item>
+                            <el-menu-item index="2-1" onclick="change_hot()">热力图</el-menu-item>
                             <el-menu-item index="2-2">多选分析</el-menu-item>
                             <el-menu-item index="2-3">交叉分析N</el-menu-item>
                             <el-menu-item index="2-4">对应分析</el-menu-item>
@@ -35,14 +37,11 @@
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
-                        <template slot="title"><i class="el-icon-menu"></i>发达城市</template>
+                        <template slot="title"><i class="el-icon-menu"></i>热点城市</template>
                         <el-menu-item-group>
-                            <el-menu-item index="3-1">层次分析法</el-menu-item>
-                            <el-menu-item index="3-2">因子分析（探索性）</el-menu-item>
-                            <el-menu-item index="3-3">数据包络分析</el-menu-item>
-                            <el-menu-item index="3-4">优劣距离法（TOPSIS）</el-menu-item>
-                            <el-menu-item index="3-5">秩和比综合评价法（RSR）</el-menu-item>
-                            <el-menu-item index="3-6">耦合协调度</el-menu-item>
+                            {% for i in hot_city %}
+                            <el-menu-item index="3-1" onclick="change_html('{{ i }}')">{{ i }}</el-menu-item>
+                            {% endfor %}
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="3">
@@ -50,7 +49,6 @@
                         {% for r in ks %}
                             <el-submenu index="{{ r }}">
                                 <template slot="title">{{ r|upper }}</template>
-                                <!--   引入k变量对应的键值对-->
                                 {% block base %}
                                     {% for k in first_pinyin|get_item:r %}
                                         <el-menu-item-group>
@@ -64,24 +62,17 @@
                     </el-submenu>
 
                     <el-submenu index="4">
-                        <template slot="title"><i class="el-icon-menu"></i>参数检验</template>
+                        <template slot="title"><i class="el-icon-menu"></i>数据管理</template>
                         <el-menu-item-group>
-                            <el-menu-item index="4-1">单样本T检验</el-menu-item>
-                            <el-menu-item index="4-2">配对样本T检验</el-menu-item>
-                            <el-menu-item index="4-3">独立样本T检验</el-menu-item>
-                            <el-menu-item index="4-4">单因素方差分析</el-menu-item>
+                            <el-menu-item index="4-1">管理员登录</el-menu-item>
+                            <el-menu-item index="4-2">普通用户登录</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="5">
-                        <template slot="title"><i class="el-icon-menu"></i>非参数检验</template>
+                        <template slot="title"><i class="el-icon-menu"></i>用户注册</template>
                         <el-menu-item-group>
-                            <el-menu-item index="5-1">卡方检验</el-menu-item>
-                            <el-menu-item index="5-2">单样本Wilcoxon符号秩检验</el-menu-item>
-                            <el-menu-item index="5-3">配对样本Wilcoxon符号秩检验</el-menu-item>
-                            <el-menu-item index="5-4">独立样本MannWhitney检验</el-menu-item>
-                            <el-menu-item index="5-5">多配对样本Friedman检验</el-menu-item>
-                            <el-menu-item index="5-6">多独立样本Kruskal-Wallis检验</el-menu-item>
-                            <el-menu-item index="5-7">卡方拟合优度检验</el-menu-item>
+                            <el-menu-item index="5-1">申请管理员</el-menu-item>
+                            <el-menu-item index="5-2">申请成为普通用户</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="6">
@@ -130,8 +121,8 @@
             <el-container>
 
                 <el-main>
-                    <iframe id="ifm" width="90%" height="86%" scrolling="no" frameborder="0"
-                            style="position: fixed"></iframe>
+                    <iframe id="ifm" width="90%" height="100%" scrolling="no" frameborder="0"
+                            style="position: fixed" src="/hot"></iframe>
                 </el-main>
             </el-container>
         </el-container>

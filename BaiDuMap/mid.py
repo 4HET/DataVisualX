@@ -1,6 +1,16 @@
 import json
 
 import requests
+def get_province():
+    key = 'PFQu9WDiiiwqNhWxGMobLFqZDxTBPy1E'
+    r = requests.get(url=f'https://api.map.baidu.com/location/ip?ak=您的AK&ip=您的IP&coor=bd09ll //GET请求',
+                     params={'location': '32.03805,120.275443', 'ak': key, 'output': 'json'})
+
+    result = r.json()
+    print(result)
+    province = result['result']['addressComponent']['province']
+    city = result['result']['addressComponent']['city']
+    print(province, city)
 
 
 def baidu(addr):
@@ -24,4 +34,4 @@ def baidu(addr):
     g = f"{m['lng']},{m['lat']}"
     # print(g)
     return m['lat'], m['lng']
-baidu(addr="南环街道")
+get_province()
