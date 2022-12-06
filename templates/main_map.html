@@ -29,11 +29,6 @@
                         <template slot="title"><i class="el-icon-menu"></i>全国信息</template>
                         <el-menu-item-group>
                             <el-menu-item index="2-1" onclick="change_hot()">热力图</el-menu-item>
-                            <el-menu-item index="2-2">多选分析</el-menu-item>
-                            <el-menu-item index="2-3">交叉分析N</el-menu-item>
-                            <el-menu-item index="2-4">对应分析</el-menu-item>
-                            <el-menu-item index="2-5">区分度分析</el-menu-item>
-                            <el-menu-item index="2-6">联合分析</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
@@ -65,54 +60,14 @@
                         <template slot="title"><i class="el-icon-menu"></i>数据管理</template>
                         <el-menu-item-group>
                             <el-menu-item index="4-1">管理员登录</el-menu-item>
-                            <el-menu-item index="4-2">普通用户登录</el-menu-item>
+                            <el-menu-item index="4-2" onclick="document.getElementById('ifm').setAttribute('src', '/register');">普通用户登录</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="5">
                         <template slot="title"><i class="el-icon-menu"></i>用户注册</template>
                         <el-menu-item-group>
                             <el-menu-item index="5-1">申请管理员</el-menu-item>
-                            <el-menu-item index="5-2">申请成为普通用户</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <el-submenu index="6">
-                        <template slot="title"><i class="el-icon-menu"></i>相关性分析</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="6-1">Cochran's Q 检验</el-menu-item>
-                            <el-menu-item index="6-2">Kappa一致性检验</el-menu-item>
-                            <el-menu-item index="6-3">Kendall协调系数</el-menu-item>
-                            <el-menu-item index="6-4">组内相关系数</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <el-submenu index="7">
-                        <template slot="title"><i class="el-icon-menu"></i>预测模型</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="7-1">时间序列分析（ARIMA）</el-menu-item>
-                            <el-menu-item index="7-2">线性回归（最小二乘法）</el-menu-item>
-                            <el-menu-item index="7-3">岭回归（Ridge）</el-menu-item>
-                            <el-menu-item index="7-4">聚类分析（K-Means）</el-menu-item>
-                            <el-menu-item index="7-5">逻辑回归</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <el-submenu index="8">
-                        <template slot="title"><i class="el-icon-menu"></i>统计建模</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="8-1">泊松分布检验</el-menu-item>
-                            <el-menu-item index="8-2">游程检验</el-menu-item>
-                            <el-menu-item index="8-3">单位根检验（ADF）</el-menu-item>
-                            <el-menu-item index="8-4">差分分析</el-menu-item>
-                            <el-menu-item index="8-5">偏/自相关分析（pacf/acf）</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <el-submenu index="9">
-                        <template slot="title"><i class="el-icon-menu"></i>自然语言处理</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="9-1">词法分析</el-menu-item>
-                            <el-menu-item index="9-2" onclick="cxlbs()">词向量表示</el-menu-item>
-                            <el-menu-item index="9-3" onclick="cyxsd()">词义相似度</el-menu-item>
-                            <el-menu-item index="9-4" onclick="plgdcq()">评论观点抽取</el-menu-item>
-                            <el-menu-item index="9-5" onclick="qgqx()">情感倾向分析</el-menu-item>
-                            <el-menu-item index="9-6">短文本相似度</el-menu-item>
+                            <el-menu-item index="5-2" onclick="document.getElementById('ifm').setAttribute('src', '/register');">申请成为普通用户</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                 </el-menu>

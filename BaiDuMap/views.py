@@ -234,5 +234,8 @@ def get_key():
     return res.split(' ')[-3]
 
 
+def register(request):
+    return render(request, 'register.html')
+
 if __name__ == '__main__':
     get_province()

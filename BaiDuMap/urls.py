@@ -24,4 +24,5 @@ urlpatterns = [
     path('now_pos/', views.now_pos),
     path('hot/', views.hot),
     path('index/', views.index),
+    path('register/', views.register),
 ]

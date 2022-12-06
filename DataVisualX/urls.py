@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from BaiDuMap import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.mainmap),
     path('', include("HotMap.urls")),
     path('', include("BaiDuMap.urls")),
 ]
